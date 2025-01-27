@@ -2,7 +2,7 @@ import { Clock, Award, DollarSign, Users, Briefcase, Code } from 'lucide-react';
 
 const Stats = () => {
   return (
-    <section className="relative bg-gray-900 py-16 md:py-24 overflow-hidden">
+    <section className="relative bg-[#151515] py-16 md:py-24 overflow-hidden">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-10">
         <div className="absolute top-0 left-0 w-96 h-96 bg-gradient-to-br from-teal-400 to-transparent rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
