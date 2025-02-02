@@ -56,7 +56,7 @@ const Home = () => {
 
   return (
     <main className="flex-1 bg-gray-100">
-      <div className="h-[calc(100vh-4rem)] md:h-[650px] flex flex-col md:flex-row mt-12 md:mt-16">
+      <div className="h-[calc(100vh-4rem)] md:h-[600px] flex flex-col md:flex-row mt-8 md:mt-12">
         {/* Left Section */}
         <div className={`w-full md:w-1/2 ${slides[activeIndex].bgColor} flex items-center transition-colors duration-500 py-6 md:py-0`}>
           <div className="w-full max-w-[520px] mx-auto px-6 md:px-12">

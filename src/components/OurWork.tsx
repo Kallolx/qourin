@@ -46,7 +46,7 @@ const projects = [
 ];
 
 const OurWork = () => {
-  const [expandedId, setExpandedId] = useState<number | null>(null);
+  const [expandedId, setExpandedId] = useState<number | null>(1);
 
   const handleInteraction = (id: number) => {
     if (window.innerWidth <= 768) {  // Mobile click behavior

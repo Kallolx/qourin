@@ -1,9 +1,30 @@
 import React, { useState } from 'react';
 import { Globe, Search, ChevronDown, Menu, X } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
-const navItems = {
-  'About us': ['Our Story', 'Leadership', 'Partners', 'Awards', 'Locations'],
-  'Expertise': ['AI & Machine Learning', 'Web Development', 'Mobile Apps', 'Cloud Solutions', 'DevOps', 'Consulting'],
+interface NavLink {
+  title: string;
+  path: string;
+}
+
+type NavItem = NavLink[] | string[];
+
+const navItems: Record<string, NavItem> = {
+  'About Us': [
+    { title: 'About Company', path: '/about-company' },
+    { title: 'Career', path: '/career' },
+    { title: 'Job Opening', path: '/job-opening' }
+  ],
+  'Enterprise': [
+    { title: 'Software Development', path: '/enterprise/software-development' },
+    { title: 'Web Development', path: '/enterprise/web-development' },
+    { title: 'Mobile Development', path: '/enterprise/mobile-development' },
+    { title: 'Quality Assurance', path: '/enterprise/quality-assurance' },
+    { title: 'Ecommerce', path: '/enterprise/ecommerce' },
+    { title: 'Marketing', path: '/enterprise/marketing' },
+    { title: 'Devops', path: '/enterprise/devops' },
+    { title: 'Cloud Consulting', path: '/enterprise/cloud-consulting' }
+  ],
   'Industries': ['Healthcare', 'Finance', 'E-commerce', 'Education', 'Manufacturing', 'Logistics'],
 };
 
@@ -39,11 +60,11 @@ const Navbar = () => {
     <div className="fixed top-0 left-0 right-0 z-50">
       <nav className="bg-white h-16 px-4 md:px-8 flex items-center justify-between shadow-lg relative">
         {/* Logo Section */}
-        <div className="flex items-center space-x-3">
+        <Link to="/" className="flex items-center space-x-3 hover:opacity-80 transition-opacity">
           <img src="/icons/logo.png" alt="Qourin Logo" className="h-8 w-auto" />
           <span className="text-xl font-normal tracking-tight">Qourin</span>
           <Globe className="w-5 h-5 text-gray-600 ml-1" />
-        </div>
+        </Link>
         
         {/* Mobile Menu Button */}
         <button 
@@ -96,32 +117,61 @@ const Navbar = () => {
                     <h3 className="text-sm font-normal text-teal-900">{title}</h3>
                   </div>
                   <div className="py-1">
-                    {items.map((item) => (
-                      <a
-                        key={item}
-                        href="#"
-                        className="flex items-center px-3 py-2 text-sm text-gray-600 hover:bg-gradient-to-r hover:from-teal-50/50 hover:to-white hover:text-teal-700 transition-all duration-150 group"
-                      >
-                        <span className="relative pl-2 font-normal">
-                          <div className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-0 bg-teal-500 transition-all duration-200 group-hover:h-full" />
-                          {item}
-                        </span>
-                      </a>
-                    ))}
+                    {items.every(item => typeof item === 'string') ? (
+                      // Regular items array
+                      items.map((item) => (
+                        <a
+                          key={item}
+                          href="#"
+                          className="flex items-center px-3 py-2 text-sm text-gray-600 hover:bg-gradient-to-r hover:from-teal-50/50 hover:to-white hover:text-teal-700 transition-all duration-150 group"
+                          onClick={(e) => e.preventDefault()}
+                        >
+                          <span className="relative pl-2 font-normal">
+                            <div className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-0 bg-teal-500 transition-all duration-200 group-hover:h-full" />
+                            {item}
+                          </span>
+                        </a>
+                      ))
+                    ) : (
+                      // Object with title and path
+                      (items as NavLink[]).map((item) => (
+                        <Link
+                          key={item.title}
+                          to={item.path}
+                          className="flex items-center px-3 py-2 text-sm text-gray-600 hover:bg-gradient-to-r hover:from-teal-50/50 hover:to-white hover:text-teal-700 transition-all duration-150 group"
+                          onClick={() => setActiveDropdown(null)}
+                        >
+                          <span className="relative pl-2 font-normal">
+                            <div className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-0 bg-teal-500 transition-all duration-200 group-hover:h-full" />
+                            {item.title}
+                          </span>
+                        </Link>
+                      ))
+                    )}
                   </div>
                 </div>
               </div>
             ))}
 
             {/* Regular Menu Items */}
-            {['Portfolio', 'Career'].map((item) => (
-              <div key={item} className="relative h-16 flex items-center group">
-                <button className="h-full px-1 text-gray-700 hover:text-teal-600 transition-colors font-normal">
-                  {item}
+            {['Portfolio'].map((item) => (
+              <div key={item} className="relative h-16 flex items-center">
+                <button className="flex items-center space-x-1 h-full px-1 text-gray-700 hover:text-teal-600 transition-colors">
+                  <Link to="/portfolio" className="font-normal">
+                    {item}
+                  </Link>
                 </button>
                 <div className="absolute bottom-0 left-0 w-full h-0.5 bg-teal-600 scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
               </div>
             ))}
+            <div className="relative h-16 flex items-center">
+              <button className="flex items-center space-x-1 h-full px-1 text-gray-700 hover:text-teal-600 transition-colors">
+                <Link to="/career" className="font-normal">
+                  Career
+                </Link>
+              </button>
+              <div className="absolute bottom-0 left-0 w-full h-0.5 bg-teal-600 scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
+            </div>
           </div>
           
           {/* Action Buttons */}
@@ -157,33 +207,60 @@ const Navbar = () => {
                   <div className={`overflow-hidden transition-all duration-300 ${
                     activeDropdown === title ? 'max-h-96' : 'max-h-0'
                   }`}>
-                    {items.map((item) => (
-                      <a
-                        key={item}
-                        href="#"
-                        className="block py-2 px-4 text-sm text-gray-600 hover:text-teal-600"
-                      >
-                        {item}
-                      </a>
+                    {Array.isArray(items) && items.map((item) => (
+                      typeof item === 'string' ? (
+                        <a
+                          key={item}
+                          href="#"
+                          className="block py-2 px-4 text-sm text-gray-600 hover:text-teal-600"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            setIsMobileMenuOpen(false);
+                          }}
+                        >
+                          {item}
+                        </a>
+                      ) : (
+                        <Link
+                          key={item.title}
+                          to={item.path}
+                          className="block py-2 px-4 text-sm text-gray-600 hover:text-teal-600"
+                          onClick={() => {
+                            setActiveDropdown(null);
+                            setIsMobileMenuOpen(false);
+                          }}
+                        >
+                          {item.title}
+                        </Link>
+                      )
                     ))}
                   </div>
                 </div>
               ))}
 
-              {['Portfolio', 'Career'].map((item) => (
-                <button
+              {['Portfolio'].map((item) => (
+                <Link
                   key={item}
-                  className="w-full py-3 text-left text-gray-700 border-b border-gray-100"
+                  to="/portfolio"
+                  className="w-full py-3 text-left text-gray-700 border-b border-gray-100 hover:text-teal-600 transition-colors"
                 >
                   {item}
-                </button>
+                </Link>
               ))}
+              <div className="relative h-16 flex items-center">
+                <button className="flex items-center space-x-1 h-full px-1 text-gray-700 hover:text-teal-600 transition-colors">
+                  <Link to="/career" className="font-normal">
+                    Career
+                  </Link>
+                </button>
+                <div className="absolute bottom-0 left-0 w-full h-0.5 bg-teal-600 scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
+              </div>
 
               <div className="mt-4 space-y-2">
                 <button className="w-full bg-teal-600 text-white py-3 px-4 rounded-sm hover:bg-teal-700 transition-colors font-normal">
                   Contact us
                 </button>
-                <button className="w-full flex items-center justify-center py-3 px-4 border border-gray-200 rounded-sm hover:bg-gray-50">
+                <button className="w-full flex items-center justify-center py-3 px-4 border border-gray-200 rounded-sm hover:bg-gray-500">
                   <Search className="w-5 h-5 text-gray-600" />
                 </button>
               </div>
