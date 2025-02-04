@@ -55,7 +55,7 @@ const OurWork = () => {
   };
 
   return (
-    <section className="bg-gray-50 py-16 md:py-24">
+    <section className="bg-gray-50 dark:bg-gray-800 py-16 md:py-24">
       <div className="max-w-7xl mx-auto px-4 md:px-8">
         {/* Section Title */}
         <div className="text-center mb-8 md:mb-12">
@@ -65,7 +65,7 @@ const OurWork = () => {
               <span className="text-teal-600 uppercase tracking-wider text-sm font-light">Portfolio</span>
               <div className="h-[1px] w-8 bg-teal-600" />
             </div>
-            <h2 className="text-3xl md:text-4xl text-gray-900 font-light">Our Work</h2>
+            <h2 className="text-3xl md:text-4xl text-gray-900 dark:text-white font-light">Our Work</h2>
           </div>
         </div>
 
@@ -74,7 +74,7 @@ const OurWork = () => {
           {projects.map((project) => (
             <motion.div
               key={project.id}
-              className="group relative bg-white overflow-hidden cursor-pointer"
+              className="group relative bg-white dark:bg-gray-900 overflow-hidden cursor-pointer"
               onClick={() => handleInteraction(project.id)}
               onHoverStart={() => window.innerWidth > 768 && setExpandedId(project.id)}
               onHoverEnd={() => window.innerWidth > 768 && setExpandedId(null)}
@@ -86,20 +86,18 @@ const OurWork = () => {
             >
               <div className="flex flex-col md:flex-row">
                 {/* Category */}
-                <div className="w-full md:w-1/4 px-6 py-4 md:py-6 border-b md:border-b-0 md:border-r border-gray-100 flex items-center">
-                  <span className="text-gray-600 text-sm font-light">{project.category}</span>
+                <div className="w-full md:w-1/4 px-6 py-4 md:py-6 border-b md:border-b-0 md:border-r border-gray-100 dark:border-gray-700 flex items-center">
+                  <span className="text-gray-600 dark:text-gray-400 text-sm font-light">{project.category}</span>
                 </div>
 
                 {/* Content Container */}
                 <div className="flex-1">
-                  {/* Title and Arrow - Shown when not expanded */}
-                  <div 
-                    className={`px-6 py-4 md:py-6 flex items-center justify-between transition-opacity duration-200 ${
-                      expandedId === project.id ? 'hidden' : 'block'
-                    }`}
-                  >
-                    <h3 className="text-gray-900 font-medium group-hover:underline">{project.title}</h3>
-                    <ArrowUpRight className="w-5 h-5 text-gray-400 group-hover:text-teal-600 transition-colors" />
+                  {/* Title and Arrow */}
+                  <div className={`px-6 py-4 md:py-6 flex items-center justify-between transition-opacity duration-200 ${
+                    expandedId === project.id ? 'hidden' : 'block'
+                  }`}>
+                    <h3 className="text-gray-900 dark:text-white font-medium group-hover:underline">{project.title}</h3>
+                    <ArrowUpRight className="w-5 h-5 text-gray-400 dark:text-gray-500 group-hover:text-teal-600 transition-colors" />
                   </div>
 
                   {/* Expanded Content */}
@@ -107,8 +105,8 @@ const OurWork = () => {
                     <div className="p-6">
                       <div className="flex flex-col md:flex-row gap-6">
                         <div className="flex-1">
-                          <h3 className="text-gray-900 font-medium text-xl mb-3 underline">{project.title}</h3>
-                          <p className="text-gray-600 mb-4">{project.description}</p>
+                          <h3 className="text-gray-900 dark:text-white font-medium text-xl mb-3 underline">{project.title}</h3>
+                          <p className="text-gray-600 dark:text-gray-400 mb-4">{project.description}</p>
                           <a 
                             href={project.link}
                             className="inline-flex items-center text-teal-600 hover:text-teal-700 transition-colors font-bold hover:underline"

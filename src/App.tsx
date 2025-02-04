@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { ThemeProvider } from './context/ThemeContext';
 import Navbar from './components/Navbar';
 import Home from './components/Home';
 import About from './components/About';
@@ -21,37 +22,39 @@ import ScrollToTop from './components/ScrollToTop';
 
 function App() {
   return (
-    <Router>
-      <ScrollToTop />
-      <div className="min-h-screen bg-white">
-        <Navbar />
-        <div className="pt-16"> {/* Add padding top to account for fixed navbar */}
-          <Routes>
-            <Route path="/" element={
-              <>
-                <Home />
-                <About />
-                <Stats />
-                <HowWeWork />
-                <Testimonials />
-                <OurWork />
-                <Contact />
-              </>
-            } />
-            <Route path="/about-company" element={<AboutCompany />} />
-            <Route path="/career" element={<Careers />} />
-            <Route path="/job-opening" element={<JobOpenings />} />
-            <Route path="/portfolio" element={<Portfolio />} />
-            <Route path="/enterprise/software-development" element={<SoftwareDevelopment />} />
-            <Route path="/enterprise/web-development" element={<WebDevelopment />} />
-            <Route path="/enterprise/mobile-development" element={<MobileDevelopment />} />
-            <Route path="/enterprise/devops" element={<DevOps />} />
-            <Route path="/enterprise/cloud-consulting" element={<CloudConsulting />} />
-          </Routes>
+    <ThemeProvider>
+      <Router>
+        <ScrollToTop />
+        <div className="min-h-screen bg-white dark:bg-gray-900">
+          <Navbar />
+          <div className="pt-16"> {/* Add padding top to account for fixed navbar */}
+            <Routes>
+              <Route path="/" element={
+                <>
+                  <Home />
+                  <About />
+                  <Stats />
+                  <HowWeWork />
+                  <Testimonials />
+                  <OurWork />
+                  <Contact />
+                </>
+              } />
+              <Route path="/about-company" element={<AboutCompany />} />
+              <Route path="/career" element={<Careers />} />
+              <Route path="/job-opening" element={<JobOpenings />} />
+              <Route path="/portfolio" element={<Portfolio />} />
+              <Route path="/enterprise/software-development" element={<SoftwareDevelopment />} />
+              <Route path="/enterprise/web-development" element={<WebDevelopment />} />
+              <Route path="/enterprise/mobile-development" element={<MobileDevelopment />} />
+              <Route path="/enterprise/devops" element={<DevOps />} />
+              <Route path="/enterprise/cloud-consulting" element={<CloudConsulting />} />
+            </Routes>
+          </div>
+          <Footer />
         </div>
-        <Footer />
-      </div>
-    </Router>
+      </Router>
+    </ThemeProvider>
   );
 }
 

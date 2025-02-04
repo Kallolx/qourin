@@ -58,23 +58,28 @@ const Navbar = () => {
 
   return (
     <div className="fixed top-0 left-0 right-0 z-50">
-      <nav className="bg-white h-16 px-4 md:px-8 flex items-center justify-between shadow-lg relative">
+      <nav className="bg-white dark:bg-gray-900 h-16 px-4 md:px-8 flex items-center justify-between shadow-lg relative">
         {/* Logo Section */}
-        <Link to="/" className="flex items-center space-x-3 hover:opacity-80 transition-opacity">
-          <img src="/icons/logo.png" alt="Qourin Logo" className="h-8 w-auto" />
-          <span className="text-xl font-normal tracking-tight">Qourin</span>
-          <Globe className="w-5 h-5 text-gray-600 ml-1" />
-        </Link>
+        <div className="flex items-center">
+          <Link to="/" className="flex items-center space-x-3 hover:opacity-80 transition-opacity">
+            <img src="/icons/logo.png" alt="Qourin Logo" className="h-8 w-auto" />
+            <span className="text-xl font-normal tracking-tight text-gray-900 dark:text-white">Qourin</span>
+          </Link>
+          <div className="ml-[200px] flex items-center h-full">
+            <Globe className="w-5 h-5 text-gray-600 dark:text-gray-400" />
+          </div>
+          <div className="h-16 w-[1px] bg-gray-200 dark:bg-gray-700 mx-8" />
+        </div>
         
         {/* Mobile Menu Button */}
         <button 
-          className="md:hidden p-2 hover:bg-gray-100 rounded-sm"
+          className="md:hidden p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-sm"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
         >
           {isMobileMenuOpen ? (
-            <X className="w-6 h-6 text-gray-600" />
+            <X className="w-6 h-6 text-gray-600 dark:text-gray-400" />
           ) : (
-            <Menu className="w-6 h-6 text-gray-600" />
+            <Menu className="w-6 h-6 text-gray-600 dark:text-gray-400" />
           )}
         </button>
 
@@ -90,13 +95,13 @@ const Navbar = () => {
                 onMouseLeave={handleMouseLeave}
               >
                 <button 
-                  className={`flex items-center space-x-1 h-full px-1 text-gray-700 hover:text-teal-600 transition-colors ${
-                    activeDropdown === title ? 'text-teal-600' : ''
+                  className={`flex items-center space-x-1 h-full px-1 text-gray-700 dark:text-gray-300 hover:text-teal-600 dark:hover:text-teal-500 transition-colors ${
+                    activeDropdown === title ? 'text-teal-600 dark:text-teal-500' : ''
                   }`}
                 >
                   <span className="font-normal">{title}</span>
                   <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${
-                    activeDropdown === title ? 'rotate-180 text-teal-600' : ''
+                    activeDropdown === title ? 'rotate-180 text-teal-600 dark:text-teal-500' : ''
                   }`} />
                 </button>
 
@@ -107,14 +112,14 @@ const Navbar = () => {
                 
                 {/* Dropdown Content */}
                 <div 
-                  className={`dropdown-content absolute top-full left-1/2 -translate-x-1/2 w-64 bg-white shadow-xl border border-gray-100 transition-all duration-300 ${
+                  className={`dropdown-content absolute top-full left-1/2 -translate-x-1/2 w-64 bg-white dark:bg-gray-900 shadow-xl border border-gray-100 dark:border-gray-700 transition-all duration-300 ${
                     activeDropdown === title 
                       ? 'opacity-100 translate-y-0' 
                       : 'opacity-0 translate-y-2 pointer-events-none'
                   }`}
                 >
-                  <div className="py-2 px-3 bg-gradient-to-br from-teal-50 to-white border-b">
-                    <h3 className="text-sm font-normal text-teal-900">{title}</h3>
+                  <div className="py-2 px-3 bg-gradient-to-br from-teal-50 dark:from-teal-900/20 to-white dark:to-gray-900 border-b border-gray-100 dark:border-gray-700">
+                    <h3 className="text-sm font-normal text-teal-900 dark:text-teal-100">{title}</h3>
                   </div>
                   <div className="py-1">
                     {items.every(item => typeof item === 'string') ? (
@@ -123,7 +128,7 @@ const Navbar = () => {
                         <a
                           key={item}
                           href="#"
-                          className="flex items-center px-3 py-2 text-sm text-gray-600 hover:bg-gradient-to-r hover:from-teal-50/50 hover:to-white hover:text-teal-700 transition-all duration-150 group"
+                          className="flex items-center px-3 py-2 text-sm text-gray-600 dark:text-gray-400 hover:bg-gradient-to-r hover:from-teal-50/50 dark:hover:from-teal-900/20 hover:to-white dark:hover:to-gray-900 hover:text-teal-700 dark:hover:text-teal-400 transition-all duration-150 group"
                           onClick={(e) => e.preventDefault()}
                         >
                           <span className="relative pl-2 font-normal">
@@ -138,7 +143,7 @@ const Navbar = () => {
                         <Link
                           key={item.title}
                           to={item.path}
-                          className="flex items-center px-3 py-2 text-sm text-gray-600 hover:bg-gradient-to-r hover:from-teal-50/50 hover:to-white hover:text-teal-700 transition-all duration-150 group"
+                          className="flex items-center px-3 py-2 text-sm text-gray-600 dark:text-gray-400 hover:bg-gradient-to-r hover:from-teal-50/50 dark:hover:from-teal-900/20 hover:to-white dark:hover:to-gray-900 hover:text-teal-700 dark:hover:text-teal-400 transition-all duration-150 group"
                           onClick={() => setActiveDropdown(null)}
                         >
                           <span className="relative pl-2 font-normal">
@@ -156,7 +161,7 @@ const Navbar = () => {
             {/* Regular Menu Items */}
             {['Portfolio'].map((item) => (
               <div key={item} className="relative h-16 flex items-center">
-                <button className="flex items-center space-x-1 h-full px-1 text-gray-700 hover:text-teal-600 transition-colors">
+                <button className="flex items-center space-x-1 h-full px-1 text-gray-700 dark:text-white hover:text-teal-600 dark:hover:text-teal-500 transition-colors">
                   <Link to="/portfolio" className="font-normal">
                     {item}
                   </Link>
@@ -165,7 +170,7 @@ const Navbar = () => {
               </div>
             ))}
             <div className="relative h-16 flex items-center">
-              <button className="flex items-center space-x-1 h-full px-1 text-gray-700 hover:text-teal-600 transition-colors">
+              <button className="flex items-center space-x-1 h-full px-1 text-gray-700 dark:text-white hover:text-teal-600 dark:hover:text-teal-500 transition-colors">
                 <Link to="/career" className="font-normal">
                   Career
                 </Link>
@@ -179,8 +184,8 @@ const Navbar = () => {
             <button className="bg-teal-600 text-white px-6 h-full hover:bg-teal-700 transition-colors font-normal">
               Contact us
             </button>
-            <button className="h-16 w-16 hover:bg-gray-100 transition-colors flex items-center justify-center">
-              <Search className="w-5 h-5 text-gray-600" />
+            <button className="h-16 w-16 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors flex items-center justify-center">
+              <Search className="w-5 h-5 text-gray-600 dark:text-gray-400" />
             </button>
           </div>
         </div>
