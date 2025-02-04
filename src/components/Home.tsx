@@ -72,15 +72,13 @@ const Home = () => {
     <div className="min-h-screen bg-white dark:bg-gray-900">
       <div className="max-w-7xl mx-auto">
         {/* Main Grid */}
-        <div className="grid grid-cols-2">
+        <div className="grid grid-cols-1 md:grid-cols-2">
           {/* Left Section */}
           <div className="flex flex-col h-full">
             {/* Title Card */}
-            <div
-              className={`${slides[activeIndex].bgColor} h-[300px] transition-colors duration-500 flex items-center justify-center`}
-            >
-              <div className="p-12 max-w-[620px] w-full">
-                <h1 className="text-5xl lg:text-6xl text-white font-light leading-tight text-left">
+            <div className={`${slides[activeIndex].bgColor} min-h-[200px] md:h-[300px] transition-colors duration-500 flex items-center justify-center p-6 md:p-0`}>
+              <div className="w-full md:max-w-[620px] px-4 md:px-12">
+                <h1 className="text-4xl md:text-5xl lg:text-6xl text-white font-light leading-tight text-left">
                   {slides[activeIndex].title.split("\n").map((line, i) => (
                     <React.Fragment key={i}>
                       {line}
@@ -92,9 +90,9 @@ const Home = () => {
             </div>
 
             {/* Description Card */}
-            <div className="flex-1 flex items-end">
-              <div className="ml-auto w-[440px] space-y-8 pr-16">
-                <p className="text-base text-gray-800 dark:text-gray-200 font-light leading-relaxed">
+            <div className="flex-1 flex items-end py-8 md:py-0">
+              <div className="w-full md:w-[440px] space-y-6 md:space-y-8 px-6 md:ml-auto md:pr-16">
+                <p className="text-sm md:text-base text-gray-800 dark:text-gray-200 font-light leading-relaxed">
                   {slides[activeIndex].description}
                 </p>
                 <button
@@ -111,47 +109,41 @@ const Home = () => {
           </div>
 
           {/* Right Section */}
-          <div className="border-l border-gray-100 dark:border-gray-800">
-            <div className="border-l border-gray-100 dark:border-gray-800">
-              <div className="border-l border-gray-100 dark:border-gray-800">
-                {/* Counter Section */}
-                <div className="relative h-[300px] flex items-center justify-center">
-                  <div className="absolute bottom-8 right-8 flex items-center space-x-12">
-                    {slides.map((_, index) => (
-                      <div
-                        key={index}
-                        className="relative flex flex-col items-center"
-                      >
-                        {/* Progress Bar */}
-                        <div
-                          className="absolute -top-3 left-1/2 transition-all duration-500 bg-[#008080] dark:bg-[#00A45A] font-light"
-                          style={{
-                            width: index === activeIndex ? "60px" : "30px",
-                            height: "2px",
-                            transform: `translateX(-50%) scaleX(${
-                              index === activeIndex ? progress / 100 : 0.3
-                            })`,
-                          }}
-                        />
+          <div className="border-l border-gray-100 dark:border-gray-800 hidden md:block">
+            {/* Counter Section */}
+            <div className="relative h-[300px]">
+              {/* Image Counter */}
+              <div className="absolute bottom-8 right-8 flex items-center space-x-12">
+                {slides.map((_, index) => (
+                  <div key={index} className="relative flex flex-col items-center">
+                    {/* Progress Bar */}
+                    <div
+                      className="absolute -top-3 left-1/2 transition-all duration-500 bg-[#008080] dark:bg-[#00A45A] font-light"
+                      style={{
+                        width: index === activeIndex ? "60px" : "30px",
+                        height: "2px",
+                        transform: `translateX(-50%) scaleX(${
+                          index === activeIndex ? progress / 100 : 0.3
+                        })`,
+                      }}
+                    />
 
-                        {/* Number Button */}
-                        <button
-                          onClick={() => {
-                            setActiveIndex(index);
-                            setProgress(0);
-                          }}
-                          className={`text-base font-light tracking-wide transition-all ${
-                            index === activeIndex
-                              ? "text-[#008080] dark:text-white"
-                              : "text-gray-400 dark:text-gray-500 hover:text-gray-500 dark:hover:text-white"
-                          }`}
-                        >
-                          {String(index + 1).padStart(2, "0")}
-                        </button>
-                      </div>
-                    ))}
+                    {/* Number Button */}
+                    <button
+                      onClick={() => {
+                        setActiveIndex(index);
+                        setProgress(0);
+                      }}
+                      className={`text-base font-light tracking-wide transition-all ${
+                        index === activeIndex
+                          ? "text-[#008080] dark:text-white"
+                          : "text-gray-400 dark:text-gray-500 hover:text-gray-500 dark:hover:text-white"
+                      }`}
+                    >
+                      {String(index + 1).padStart(2, "0")}
+                    </button>
                   </div>
-                </div>
+                ))}
               </div>
             </div>
 
@@ -161,23 +153,54 @@ const Home = () => {
                 <img
                   src={slides[activeIndex].image}
                   alt={slides[activeIndex].alt}
-                  className="w-full h-full object-cover transition-all duration-500"
+                  className="w-full h-full object-fit transition-all duration-500"
                 />
                 {/* Diagonal Cut Overlay */}
                 <div
                   className="absolute bottom-0 right-0 w-[200px] h-[200px]"
                   style={{
                     background: "var(--bg-color, white)",
-                    clipPath: "polygon(100% 0, 20% 100%, 100% 100%)"
+                    clipPath: "polygon(100% 0, 20% 100%, 100% 120%)"
                   }}
                 />
               </div>
             </div>
           </div>
+
+          {/* Mobile Image Section */}
+          <div className="md:hidden w-full mt-8">
+            <div className="relative h-[300px] overflow-hidden">
+              <img
+                src={slides[activeIndex].image}
+                alt={slides[activeIndex].alt}
+                className="w-full h-full object-cover transition-all duration-500"
+              />
+              {/* Mobile Image Counter */}
+              <div className="absolute bottom-4 right-4 flex items-center space-x-6 bg-black/20 backdrop-blur-sm px-4 py-2 rounded-full">
+                {slides.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => {
+                      setActiveIndex(index);
+                      setProgress(0);
+                    }}
+                    className={`text-sm font-light transition-all ${
+                      index === activeIndex
+                        ? "text-white"
+                        : "text-white/60 hover:text-white/80"
+                    }`}
+                  >
+                    {String(index + 1).padStart(2, "0")}
+                  </button>
+                ))}
+              </div>
+              
+            </div>
+          </div>
         </div>
 
         {/* Separation Line */}
-        <div className="w-full h-px bg-gray-200 dark:bg-gray-800 mt-24" />
+        <div className="w-full h-px bg-gray-200 dark:bg-gray-800 mt-12 md:mt-24" />
       </div>
     </div>
   );

@@ -19,13 +19,25 @@ const navItems: Record<string, NavItem> = {
     { title: 'Software Development', path: '/enterprise/software-development' },
     { title: 'Web Development', path: '/enterprise/web-development' },
     { title: 'Mobile Development', path: '/enterprise/mobile-development' },
-    { title: 'Quality Assurance', path: '/enterprise/quality-assurance' },
-    { title: 'Ecommerce', path: '/enterprise/ecommerce' },
-    { title: 'Marketing', path: '/enterprise/marketing' },
+    { title: 'Artificial Intelligence', path: '/enterprise/artificial-intelligence' },
+    { title: 'Backend Development', path: '/enterprise/backend-development' },
+    { title: 'Frontend Development', path: '/enterprise/frontend-development' },
+    { title: 'AR/VR Development', path: '/enterprise/ar-vr-development' },
+    { title: 'Blockchain Development', path: '/enterprise/blockchain-development' },
+    { title: 'AWS Cloud Consulting', path: '/enterprise/aws-consulting' },
+    { title: 'Azure Cloud Consulting', path: '/enterprise/azure-consulting' },
+    { title: 'Google Cloud Consulting', path: '/enterprise/google-cloud-consulting' },
     { title: 'Devops', path: '/enterprise/devops' },
     { title: 'Cloud Consulting', path: '/enterprise/cloud-consulting' }
   ],
-  'Industries': ['Healthcare', 'Finance', 'E-commerce', 'Education', 'Manufacturing', 'Logistics'],
+  'Industries': [
+    { title: 'Healthcare', path: '/industry/healthcare' },
+    { title: 'Finance', path: '/industry/finance' },
+    { title: 'E-commerce', path: '/industry/e-commerce' },
+    { title: 'Education', path: '/industry/education' },
+    { title: 'Food & Beverage', path: '/industry/food-beverage' },
+    { title: 'Automotive', path: '/industry/automotive' }
+  ],
 };
 
 const Navbar = () => {
@@ -65,10 +77,10 @@ const Navbar = () => {
             <img src="/icons/logo.png" alt="Qourin Logo" className="h-8 w-auto" />
             <span className="text-xl font-normal tracking-tight text-gray-900 dark:text-white">Qourin</span>
           </Link>
-          <div className="ml-[200px] flex items-center h-full">
+          <div className="ml-4 md:ml-[200px] flex items-center h-full">
             <Globe className="w-5 h-5 text-gray-600 dark:text-gray-400" />
           </div>
-          <div className="h-16 w-[1px] bg-gray-200 dark:bg-gray-700 mx-8" />
+          <div className="hidden md:block h-16 w-[1px] bg-gray-200 dark:bg-gray-700 mx-8" />
         </div>
         
         {/* Mobile Menu Button */}
@@ -181,7 +193,13 @@ const Navbar = () => {
           
           {/* Action Buttons */}
           <div className="flex items-center h-16">
-            <button className="bg-teal-600 text-white px-6 h-full hover:bg-teal-700 transition-colors font-normal">
+            <button 
+              onClick={(e) => {
+                e.preventDefault();
+                document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+              }}
+              className="bg-teal-600 text-white px-6 h-full hover:bg-teal-700 transition-colors font-normal"
+            >
               Contact us
             </button>
             <button className="h-16 w-16 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors flex items-center justify-center">
@@ -191,82 +209,91 @@ const Navbar = () => {
         </div>
 
         {/* Mobile Navigation */}
-        <div className={`md:hidden fixed inset-0 top-16 bg-white transition-transform duration-300 transform ${
+        <div className={`md:hidden fixed inset-0 top-16 bg-white dark:bg-gray-900 transition-transform duration-300 transform ${
           isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
-        }`}>
-          <div className="h-full overflow-y-auto pb-16">
+        } overflow-y-auto`}>
+          <div className="h-full pb-20">
             {/* Mobile Menu Items */}
-            <div className="px-4 py-2">
+            <div className="px-4 py-2 space-y-2">
               {Object.entries(navItems).map(([title, items]) => (
-                <div key={title} className="border-b border-gray-100">
+                <div key={title} className="border-b border-gray-100 dark:border-gray-800">
                   <button
-                    className="w-full py-3 flex items-center justify-between text-gray-700"
+                    className="w-full py-4 flex items-center justify-between text-gray-700 dark:text-gray-300 hover:text-teal-600 dark:hover:text-teal-500"
                     onClick={() => toggleMobileDropdown(title)}
                   >
-                    <span className="font-normal">{title}</span>
-                    <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${
+                    <span className="font-normal text-lg">{title}</span>
+                    <ChevronDown className={`w-5 h-5 transition-transform duration-300 ${
                       activeDropdown === title ? 'rotate-180' : ''
                     }`} />
                   </button>
                   
                   <div className={`overflow-hidden transition-all duration-300 ${
-                    activeDropdown === title ? 'max-h-96' : 'max-h-0'
+                    activeDropdown === title ? 'max-h-[500px]' : 'max-h-0'
                   }`}>
-                    {Array.isArray(items) && items.map((item) => (
-                      typeof item === 'string' ? (
-                        <a
-                          key={item}
-                          href="#"
-                          className="block py-2 px-4 text-sm text-gray-600 hover:text-teal-600"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            setIsMobileMenuOpen(false);
-                          }}
-                        >
-                          {item}
-                        </a>
-                      ) : (
-                        <Link
-                          key={item.title}
-                          to={item.path}
-                          className="block py-2 px-4 text-sm text-gray-600 hover:text-teal-600"
-                          onClick={() => {
-                            setActiveDropdown(null);
-                            setIsMobileMenuOpen(false);
-                          }}
-                        >
-                          {item.title}
-                        </Link>
-                      )
-                    ))}
+                    <div className="pb-4 space-y-1">
+                      {Array.isArray(items) && items.map((item) => (
+                        typeof item === 'string' ? (
+                          <a
+                            key={item}
+                            href="#"
+                            className="block py-3 px-6 text-base text-gray-600 dark:text-gray-400 hover:bg-teal-50 dark:hover:bg-teal-900/20 hover:text-teal-600 dark:hover:text-teal-400 rounded-lg transition-colors"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              setIsMobileMenuOpen(false);
+                            }}
+                          >
+                            {item}
+                          </a>
+                        ) : (
+                          <Link
+                            key={item.title}
+                            to={item.path}
+                            className="block py-3 px-6 text-base text-gray-600 dark:text-gray-400 hover:bg-teal-50 dark:hover:bg-teal-900/20 hover:text-teal-600 dark:hover:text-teal-400 rounded-lg transition-colors"
+                            onClick={() => {
+                              setActiveDropdown(null);
+                              setIsMobileMenuOpen(false);
+                            }}
+                          >
+                            {item.title}
+                          </Link>
+                        )
+                      ))}
+                    </div>
                   </div>
                 </div>
               ))}
 
-              {['Portfolio'].map((item) => (
-                <Link
-                  key={item}
-                  to="/portfolio"
-                  className="w-full py-3 text-left text-gray-700 border-b border-gray-100 hover:text-teal-600 transition-colors"
-                >
-                  {item}
-                </Link>
-              ))}
-              <div className="relative h-16 flex items-center">
-                <button className="flex items-center space-x-1 h-full px-1 text-gray-700 hover:text-teal-600 transition-colors">
-                  <Link to="/career" className="font-normal">
-                    Career
-                  </Link>
-                </button>
-                <div className="absolute bottom-0 left-0 w-full h-0.5 bg-teal-600 scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
-              </div>
+              {/* Mobile Regular Menu Items */}
+              <Link 
+                to="/portfolio" 
+                className="block py-4 px-4 text-lg text-gray-700 dark:text-gray-300 hover:text-teal-600 dark:hover:text-teal-500 border-b border-gray-100 dark:border-gray-800"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Portfolio
+              </Link>
+              <Link 
+                to="/career" 
+                className="block py-4 px-4 text-lg text-gray-700 dark:text-gray-300 hover:text-teal-600 dark:hover:text-teal-500 border-b border-gray-100 dark:border-gray-800"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Career
+              </Link>
 
-              <div className="mt-4 space-y-2">
-                <button className="w-full bg-teal-600 text-white py-3 px-4 rounded-sm hover:bg-teal-700 transition-colors font-normal">
+              {/* Mobile Action Buttons */}
+              <div className="fixed bottom-0 left-0 right-0 p-4 bg-white dark:bg-gray-900 border-t border-gray-100 dark:border-gray-800 flex flex-col gap-3">
+                <button 
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setIsMobileMenuOpen(false);
+                    document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                  className="w-full py-3 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors font-normal text-base"
+                >
                   Contact us
                 </button>
-                <button className="w-full flex items-center justify-center py-3 px-4 border border-gray-200 rounded-sm hover:bg-gray-500">
-                  <Search className="w-5 h-5 text-gray-600" />
+                <button className="w-full py-3 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors flex items-center justify-center gap-2">
+                  <Search className="w-5 h-5" />
+                  <span className="font-normal">Search</span>
                 </button>
               </div>
             </div>

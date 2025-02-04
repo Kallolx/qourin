@@ -17,8 +17,22 @@ import WebDevelopment from './pages/enterprise/WebDevelopment';
 import MobileDevelopment from './pages/enterprise/MobileDevelopment';
 import DevOps from './pages/enterprise/Devops';
 import CloudConsulting from './pages/enterprise/CloudConsulting';
+import ArtificialIntelligence from './pages/enterprise/ArtificialIntelligence';
+import BackendDevelopment from './pages/enterprise/BackendDevelopment';
+import FrontendDevelopment from './pages/enterprise/FrontendDevelopment';
+import ARVRDevelopment from './pages/enterprise/ARVRDevelopment';
+import BlockchainDevelopment from './pages/enterprise/BlockchainDevelopment';
 import Portfolio from './pages/Portfolio';
 import ScrollToTop from './components/ScrollToTop';
+import AWSConsulting from './pages/enterprise/AWSConsulting';
+import AzureConsulting from './pages/enterprise/AzureConsulting';
+import GoogleCloudConsulting from './pages/enterprise/GoogleCloudConsulting';
+import Healthcare from './pages/industry/Healthcare';
+import Finance from './pages/industry/Finance';
+import Ecommerce from './pages/industry/Ecommerce';
+import Education from './pages/industry/Education';
+import FoodBeverage from './pages/industry/FoodBeverage';
+import Automotive from './pages/industry/Automotive';
 
 function App() {
   return (
@@ -47,8 +61,22 @@ function App() {
               <Route path="/enterprise/software-development" element={<SoftwareDevelopment />} />
               <Route path="/enterprise/web-development" element={<WebDevelopment />} />
               <Route path="/enterprise/mobile-development" element={<MobileDevelopment />} />
+              <Route path="/enterprise/artificial-intelligence" element={<ArtificialIntelligence />} />
+              <Route path="/enterprise/backend-development" element={<BackendDevelopment />} />
+              <Route path="/enterprise/frontend-development" element={<FrontendDevelopment />} />
+              <Route path="/enterprise/ar-vr-development" element={<ARVRDevelopment />} />
+              <Route path="/enterprise/blockchain-development" element={<BlockchainDevelopment />} />
               <Route path="/enterprise/devops" element={<DevOps />} />
               <Route path="/enterprise/cloud-consulting" element={<CloudConsulting />} />
+              <Route path="/enterprise/aws-consulting" element={<AWSConsulting />} />
+              <Route path="/enterprise/azure-consulting" element={<AzureConsulting />} />
+              <Route path="/enterprise/google-cloud-consulting" element={<GoogleCloudConsulting />} />
+              <Route path="/industry/healthcare" element={<Healthcare />} />
+              <Route path="/industry/finance" element={<Finance />} />
+              <Route path="/industry/e-commerce" element={<Ecommerce />} />
+              <Route path="/industry/education" element={<Education />} />
+              <Route path="/industry/food-beverage" element={<FoodBeverage />} />
+              <Route path="/industry/automotive" element={<Automotive />} />
             </Routes>
           </div>
           <Footer />

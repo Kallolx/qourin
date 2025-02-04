@@ -26,7 +26,7 @@ const Careers = () => {
       <div className="relative">
         <div className="w-full h-[60vh] relative">
           <img 
-            src="https://s3-alpha-sig.figma.com/img/9d79/16d6/de894de44d872f270f751b6d07f77ce2?Expires=1739145600&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=LL3NAnKcvYx43Ecz63bII4kkLlE1rggkT9Y87YwKRIg2CPYkLwLftKBg3C~e4BhHnAkQzAGJiq-tmwHP5ndcDqFqRgdBNAXF6-0LslEHONBIGYTzM8P7x5dXP-~NkYRXeIWwdCXyhdS6pPDVQqSa4w9UvxfQjwwFJluPvNt-hTvFix63IiK1ieJd73CfDXNaxHh-Et8I4U6dTFzMBhsOACb9JqZ8wUdSea1MUK-jO93W2xwj~AMkw3aoUM~VEHAYHrFlN-OQQeSaZn8rrwpqtx0~ZVVd-Dolgzsv2Q~VdtOT91Ll-WxVGQj9ifCfLBTXCK38waQJN~K39ab42bwNeA__" 
+            src="/images/contact.jpg" 
             alt="Team collaboration" 
             className="w-full h-full object-cover brightness-75"
           />

@@ -38,7 +38,7 @@ const AboutCompany = () => {
         {/* Hero Image */}
         <div className="w-full h-[60vh] md:h-[80vh] relative">
           <img 
-            src="https://s3-alpha-sig.figma.com/img/72dd/f587/83ffd44f2b7dd4ee10de44bbf68bfc63?Expires=1739145600&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=bYy9XLGR5AFZZIWZmebCuPpyIeVpRatSH~Yo2eO2ReSrdWsifvrwMscc9PGCd3rvY8byB333MMBt841xrRX9yEuG1uNUnH9ajn0gddcDazTqopscp7E5N3y8NZGcAx~lnpgVJVOSRGhNbZb4vV2p1~NX11aVGyGQUyLr0MA-D1mvmvcVww5xbKrPCyWgTx3G7JslLEYakjQivg4n3NCojBrpZMz3xvv4KWSSBk2aNbnkY0NfG9HJRrntaUx96yQ~t6D5no5y-ayqxx~LdWIkedW4Va3FqUwHxW4ohpWrjCEybuZK4HjghC48dwPNWrcv3LKwTVUY8YjjFuV26nMtFQ__"
+            src="/images/about.jpg"
             alt="Team collaboration" 
             className="w-full h-full object-cover brightness-75"
           />
