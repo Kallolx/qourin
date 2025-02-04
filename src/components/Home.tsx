@@ -12,7 +12,7 @@ const slides = [
       "Qourin developers partner with innovative companies, from startups to multinational, lending the software engineering expertise to propel them to new heights and the edge to outpace the competition.",
     buttonText: "Get an estimate",
     bgColor: "bg-[#008080]", // Teal color from image
-    route: "/contact"
+    route: "/contact",
   },
   {
     id: 2,
@@ -23,7 +23,7 @@ const slides = [
       "As pioneers in AI engineering, we view it as more than a shiny tool: it's a pillar of the new business normal. Those companies that embrace and leverage AI will set the standard and lead in their category.",
     buttonText: "Read the report",
     bgColor: "bg-emerald-600",
-    route: "/expertise"
+    route: "/expertise",
   },
   {
     id: 3,
@@ -34,7 +34,7 @@ const slides = [
       "Get it done right — the first time. Our proven software expertise and engagement flexibility mean you don't have to worry about timelines, processes, or outcomes.",
     buttonText: "Explore services",
     bgColor: "bg-cyan-600",
-    route: "/services"
+    route: "/services",
   },
   {
     id: 4,
@@ -45,7 +45,7 @@ const slides = [
       "At Qourin, unparalleled customer care isn't just a promise — it's our mission. We blend personalized experience, unwavering attention to detail, and a genuine passion for your business, ensuring that every aspect of our collaboration is tailored to your success",
     buttonText: "Schedule a call",
     bgColor: "bg-teal-600",
-    route: "/contact"
+    route: "/contact",
   },
 ];
 
@@ -77,10 +77,10 @@ const Home = () => {
           <div className="flex flex-col h-full">
             {/* Title Card */}
             <div
-              className={`${slides[activeIndex].bgColor} h-[300px] transition-colors duration-500`}
+              className={`${slides[activeIndex].bgColor} h-[300px] transition-colors duration-500 flex items-center justify-center`}
             >
-              <div className="p-12 max-w-[620px]">
-                <h1 className="text-5xl lg:text-6xl text-white font-light leading-tight">
+              <div className="p-12 max-w-[620px] w-full">
+                <h1 className="text-5xl lg:text-6xl text-white font-light leading-tight text-left">
                   {slides[activeIndex].title.split("\n").map((line, i) => (
                     <React.Fragment key={i}>
                       {line}
@@ -101,7 +101,9 @@ const Home = () => {
                   onClick={() => navigate(slides[activeIndex].route)}
                   className={`flex items-center justify-between w-full ${slides[activeIndex].bgColor} text-white py-3 group hover:opacity-90 transition-opacity`}
                 >
-                  <span className="pl-6 font-light">{slides[activeIndex].buttonText}</span>
+                  <span className="pl-6 font-light">
+                    {slides[activeIndex].buttonText}
+                  </span>
                   <ArrowUpRight className="w-5 h-5 mr-6 transform group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
                 </button>
               </div>
@@ -163,10 +165,10 @@ const Home = () => {
                 />
                 {/* Diagonal Cut Overlay */}
                 <div
-                  className="absolute bottom--10 right-0 w-40 h-40"
+                  className="absolute bottom-0 right-0 w-[200px] h-[200px]"
                   style={{
                     background: "var(--bg-color, white)",
-                    clipPath: "polygon(100% 0, 0% 100%, 100% 100%)",
+                    clipPath: "polygon(100% 0, 20% 100%, 100% 100%)"
                   }}
                 />
               </div>
