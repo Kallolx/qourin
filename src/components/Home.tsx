@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, TouchEvent } from "react";
 import { ArrowUpRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
@@ -12,7 +12,7 @@ const slides = [
       "Qourin developers partner with innovative companies, from startups to multinational, lending the software engineering expertise to propel them to new heights and the edge to outpace the competition.",
     buttonText: "Get an estimate",
     bgColor: "bg-[#008080]", // Teal color from image
-    route: "/contact",
+    route: "/enterprise/software-development",
   },
   {
     id: 2,
@@ -23,7 +23,7 @@ const slides = [
       "As pioneers in AI engineering, we view it as more than a shiny tool: it's a pillar of the new business normal. Those companies that embrace and leverage AI will set the standard and lead in their category.",
     buttonText: "Read the report",
     bgColor: "bg-emerald-600",
-    route: "/expertise",
+    route: "/enterprise/artificial-intelligence",
   },
   {
     id: 3,
@@ -34,7 +34,7 @@ const slides = [
       "Get it done right — the first time. Our proven software expertise and engagement flexibility mean you don't have to worry about timelines, processes, or outcomes.",
     buttonText: "Explore services",
     bgColor: "bg-cyan-600",
-    route: "/services",
+    route: "/enterprise/web-development",
   },
   {
     id: 4,
@@ -45,7 +45,7 @@ const slides = [
       "At Qourin, unparalleled customer care isn't just a promise — it's our mission. We blend personalized experience, unwavering attention to detail, and a genuine passion for your business, ensuring that every aspect of our collaboration is tailored to your success",
     buttonText: "Schedule a call",
     bgColor: "bg-teal-600",
-    route: "/contact",
+    route: "/enterprise/cloud-consulting",
   },
 ];
 
@@ -53,6 +53,34 @@ const Home = () => {
   const navigate = useNavigate();
   const [activeIndex, setActiveIndex] = useState(0);
   const [progress, setProgress] = useState(0);
+  const touchStartX = useRef(0);
+  const touchEndX = useRef(0);
+
+  // Handle touch events for swipe
+  const handleTouchStart = (e: TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchMove = (e: TouchEvent) => {
+    touchEndX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = () => {
+    const swipeThreshold = 50; // minimum distance for swipe
+    const swipeDistance = touchEndX.current - touchStartX.current;
+
+    if (Math.abs(swipeDistance) > swipeThreshold) {
+      if (swipeDistance > 0 && activeIndex > 0) {
+        // Swipe right - previous slide
+        setActiveIndex((prev) => prev - 1);
+        setProgress(0);
+      } else if (swipeDistance < 0 && activeIndex < slides.length - 1) {
+        // Swipe left - next slide
+        setActiveIndex((prev) => prev + 1);
+        setProgress(0);
+      }
+    }
+  };
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -63,7 +91,7 @@ const Home = () => {
         }
         return prev + 1;
       });
-    }, 50); // 5 seconds total for each slide
+    }, 50);
 
     return () => clearInterval(timer);
   }, []);
@@ -74,11 +102,20 @@ const Home = () => {
         {/* Main Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2">
           {/* Left Section */}
-          <div className="flex flex-col h-full">
+          <div className="flex flex-col h-full relative">
+            {/* Mobile Vertical Shape */}
+            <div className="md:hidden px-4">
+              <div
+                className={`absolute left-4 top-0 w-[60px] h-full ${slides[activeIndex].bgColor}`}
+              />
+            </div>
+
             {/* Title Card */}
-            <div className={`${slides[activeIndex].bgColor} min-h-[200px] md:h-[300px] transition-colors duration-500 flex items-center justify-center p-6 md:p-0`}>
-              <div className="w-full md:max-w-[620px] px-4 md:px-12">
-                <h1 className="text-4xl md:text-5xl lg:text-6xl text-white font-light leading-tight text-left">
+            <div
+              className={`${slides[activeIndex].bgColor} min-h-[200px] md:h-[300px] transition-colors duration-500 flex items-center justify-center p-6 md:p-0 md:bg-opacity-100 bg-opacity-0`}
+            >
+              <div className="w-full md:max-w-[620px] px-4 md:px-12 pl-24 md:pl-12">
+                <h1 className="text-4xl md:text-5xl lg:text-6xl text-gray-900 md:text-white font-light leading-tight text-left">
                   {slides[activeIndex].title.split("\n").map((line, i) => (
                     <React.Fragment key={i}>
                       {line}
@@ -90,43 +127,55 @@ const Home = () => {
             </div>
 
             {/* Description Card */}
-            <div className="flex-1 flex items-end py-8 md:py-0">
-              <div className="w-full md:w-[440px] space-y-6 md:space-y-8 px-6 md:ml-auto md:pr-16">
-                <p className="text-sm md:text-base text-gray-800 dark:text-gray-200 font-light leading-relaxed">
+            <div className="flex-1 flex flex-col justify-start md:justify-end py-8 md:py-0">
+              <div className="w-full md:w-[500px] space-y-8 md:space-y-10 px-4 pl-24 md:pl-6 md:ml-auto md:pr-16">
+                <p className="text-base md:text-lg text-gray-800 dark:text-gray-200 font-light leading-relaxed">
                   {slides[activeIndex].description}
                 </p>
+                {/* Mobile Swipe Instruction */}
+                <p className="text-sm text-gray-500 md:hidden">
+                  Swipe to next »
+                </p>
+              </div>
+              {/* Desktop Button - Hidden on Mobile */}
+              <div className="hidden md:block w-full md:w-[500px] mt-8 px-6 md:ml-auto md:pr-16">
                 <button
                   onClick={() => navigate(slides[activeIndex].route)}
-                  className={`flex items-center justify-between w-full ${slides[activeIndex].bgColor} text-white py-3 group hover:opacity-90 transition-opacity`}
+                  className={`flex items-center justify-between w-full ${slides[activeIndex].bgColor} text-white py-4 md:py-5 group hover:opacity-90 transition-opacity`}
                 >
-                  <span className="pl-6 font-light">
+                  <span className="pl-8 text-base md:text-lg font-light">
                     {slides[activeIndex].buttonText}
                   </span>
-                  <ArrowUpRight className="w-5 h-5 mr-6 transform group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                  <ArrowUpRight className="w-6 h-6 mr-8 transform group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
                 </button>
               </div>
             </div>
           </div>
 
-          {/* Right Section */}
+          {/* Right Section - Desktop Only */}
           <div className="border-l border-gray-100 dark:border-gray-800 hidden md:block">
             {/* Counter Section */}
             <div className="relative h-[300px]">
               {/* Image Counter */}
               <div className="absolute bottom-8 right-8 flex items-center space-x-12">
                 {slides.map((_, index) => (
-                  <div key={index} className="relative flex flex-col items-center">
+                  <div
+                    key={index}
+                    className="relative flex flex-col items-center"
+                  >
                     {/* Progress Bar */}
-                    <div
-                      className="absolute -top-3 left-1/2 transition-all duration-500 bg-[#008080] dark:bg-[#00A45A] font-light"
-                      style={{
-                        width: index === activeIndex ? "60px" : "30px",
-                        height: "2px",
-                        transform: `translateX(-50%) scaleX(${
-                          index === activeIndex ? progress / 100 : 0.3
-                        })`,
-                      }}
-                    />
+                    <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 w-[60px] h-[2px] bg-gray-200 dark:bg-gray-700">
+                      <div
+                        className={`absolute top-0 left-0 h-full transition-all duration-500 ${
+                          index === activeIndex
+                            ? "bg-teal-600 dark:bg-teal-500"
+                            : "bg-transparent"
+                        }`}
+                        style={{
+                          width: index === activeIndex ? `${progress}%` : "0%",
+                        }}
+                      />
+                    </div>
 
                     {/* Number Button */}
                     <button
@@ -134,10 +183,10 @@ const Home = () => {
                         setActiveIndex(index);
                         setProgress(0);
                       }}
-                      className={`text-base font-light tracking-wide transition-all ${
+                      className={`text-base font-light tracking-wide transition-colors ${
                         index === activeIndex
-                          ? "text-[#008080] dark:text-white"
-                          : "text-gray-400 dark:text-gray-500 hover:text-gray-500 dark:hover:text-white"
+                          ? "text-teal-600 dark:text-teal-500"
+                          : "text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-400"
                       }`}
                     >
                       {String(index + 1).padStart(2, "0")}
@@ -149,34 +198,31 @@ const Home = () => {
 
             {/* Image Section with Diagonal Cut */}
             <div className="relative h-[400px] overflow-hidden">
+              {/* Image Container */}
               <div className="absolute inset-0">
                 <img
                   src={slides[activeIndex].image}
                   alt={slides[activeIndex].alt}
-                  className="w-full h-full object-fit transition-all duration-500"
+                  className="w-full h-full object-cover transition-all duration-500"
                 />
-                {/* Diagonal Cut Overlay */}
-                <div
-                  className="absolute bottom-0 right-0 w-[200px] h-[200px]"
-                  style={{
-                    background: "var(--bg-color, white)",
-                    clipPath: "polygon(100% 0, 20% 100%, 100% 120%)"
-                  }}
+              </div>
+
+              {/* Diagonal Cut Overlay */}
+              <div className="absolute bottom-0 right-0 w-[300px]">
+                <img
+                  src="/hero/cut.png"
+                  alt="diagonal cut"
+                  className="w-full object-contain transform translate-y-[1px]" // Added small translate to prevent any gap
                 />
               </div>
             </div>
           </div>
 
           {/* Mobile Image Section */}
-          <div className="md:hidden w-full mt-8">
-            <div className="relative h-[300px] overflow-hidden">
-              <img
-                src={slides[activeIndex].image}
-                alt={slides[activeIndex].alt}
-                className="w-full h-full object-cover transition-all duration-500"
-              />
-              {/* Mobile Image Counter */}
-              <div className="absolute bottom-4 right-4 flex items-center space-x-6 bg-black/20 backdrop-blur-sm px-4 py-2 rounded-full">
+          <div className="md:hidden w-full">
+            <div className="px-4">
+              {/* Image Counter - Above Image */}
+              <div className="flex items-center justify-end space-x-3 mb-2">
                 {slides.map((_, index) => (
                   <button
                     key={index}
@@ -184,17 +230,53 @@ const Home = () => {
                       setActiveIndex(index);
                       setProgress(0);
                     }}
-                    className={`text-sm font-light transition-all ${
-                      index === activeIndex
-                        ? "text-white"
-                        : "text-white/60 hover:text-white/80"
-                    }`}
+                    className="relative"
                   >
-                    {String(index + 1).padStart(2, "0")}
+                    <span
+                      className={`text-sm font-light ${
+                        index === activeIndex ? "text-gray-900" : "text-gray-400"
+                      }`}
+                    >
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    {index === activeIndex && (
+                      <div className="absolute -bottom-1 left-0 w-full h-[1px] bg-gray-900" />
+                    )}
                   </button>
                 ))}
               </div>
-              
+
+              <div
+                className="relative h-[400px] overflow-hidden"
+                onTouchStart={handleTouchStart}
+                onTouchMove={handleTouchMove}
+                onTouchEnd={handleTouchEnd}
+              >
+                <img
+                  src={slides[activeIndex].image}
+                  alt={slides[activeIndex].alt}
+                  className="w-full h-full object-cover transition-all duration-500"
+                />
+                {/* Mobile Diagonal Cut Overlay */}
+                <div className="absolute bottom-0 right-0 w-[200px]">
+                  <img
+                    src="/hero/cut.png"
+                    alt="diagonal cut"
+                    className="w-full object-contain transform translate-y-[1px]"
+                  />
+                </div>
+              </div>
+
+              {/* Mobile Button */}
+              <button
+                onClick={() => navigate(slides[activeIndex].route)}
+                className={`w-full ${slides[activeIndex].bgColor} text-white h-16 mt-4 flex items-center justify-between px-8 group hover:opacity-90 transition-opacity`}
+              >
+                <span className="text-base font-light">
+                  {slides[activeIndex].buttonText}
+                </span>
+                <ArrowUpRight className="w-5 h-5 transform group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+              </button>
             </div>
           </div>
         </div>

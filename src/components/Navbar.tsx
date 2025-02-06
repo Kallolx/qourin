@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Globe, Search, ChevronDown, Menu, X } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useScrollToContact } from '../hooks/useScrollToContact';
 
 interface NavLink {
   title: string;
@@ -43,6 +44,7 @@ const navItems: Record<string, NavItem> = {
 const Navbar = () => {
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const scrollToContact = useScrollToContact();
 
   const handleMouseEnter = (title: string) => {
     if (window.innerWidth >= 768) {
@@ -194,10 +196,7 @@ const Navbar = () => {
           {/* Action Buttons */}
           <div className="flex items-center h-16">
             <button 
-              onClick={(e) => {
-                e.preventDefault();
-                document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
-              }}
+              onClick={scrollToContact}
               className="bg-teal-600 text-white px-6 h-full hover:bg-teal-700 transition-colors font-normal"
             >
               Contact us
@@ -282,11 +281,7 @@ const Navbar = () => {
               {/* Mobile Action Buttons */}
               <div className="fixed bottom-0 left-0 right-0 p-4 bg-white dark:bg-gray-900 border-t border-gray-100 dark:border-gray-800 flex flex-col gap-3">
                 <button 
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setIsMobileMenuOpen(false);
-                    document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
-                  }}
+                  onClick={scrollToContact}
                   className="w-full py-3 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors font-normal text-base"
                 >
                   Contact us

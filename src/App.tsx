@@ -1,4 +1,5 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { ThemeProvider } from './context/ThemeContext';
 import { HelmetProvider } from 'react-helmet-async';
 import Navbar from './components/Navbar';
@@ -35,6 +36,7 @@ import Ecommerce from './pages/industry/Ecommerce';
 import Education from './pages/industry/Education';
 import FoodBeverage from './pages/industry/FoodBeverage';
 import Automotive from './pages/industry/Automotive';
+import FloatingDarkMode from './components/FloatingDarkMode';
 
 // Breadcrumb schema for better SEO
 const getBreadcrumbSchema = (path: string) => {
@@ -52,15 +54,36 @@ const getBreadcrumbSchema = (path: string) => {
   return breadcrumbList;
 };
 
+// ScrollHandler component to handle scroll after navigation
+const ScrollHandler = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.state?.scrollToContact) {
+      // Small delay to ensure the contact section is rendered
+      setTimeout(() => {
+        const contactSection = document.getElementById('contact');
+        if (contactSection) {
+          contactSection.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 100);
+    }
+  }, [location]);
+
+  return null;
+};
+
 function App() {
   return (
     <HelmetProvider>
       <ThemeProvider>
         <Router>
           <ScrollToTop />
+          <ScrollHandler />
           <div className="min-h-screen bg-white dark:bg-gray-900">
             <SEO /> {/* Default SEO component */}
             <Navbar />
+            <FloatingDarkMode />
             <div className="pt-16"> {/* Add padding top to account for fixed navbar */}
               <Routes>
                 <Route path="/" element={
