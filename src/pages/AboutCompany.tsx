@@ -238,28 +238,28 @@ const AboutCompany = () => {
       </section>
 
      {/* Our Story Section */}
-     <section className="py-16 md:py-24 lg:py-32 bg-gray-50/50">
+     <section className="py-16 md:py-24">
         <div className="max-w-7xl mx-auto px-4 md:px-8">
-          <h2 className="text-2xl md:text-3xl lg:text-4xl text-gray-900 font-light mb-16 md:mb-24">
+          <h2 className="text-2xl md:text-3xl lg:text-4xl text-gray-900 font-light mb-8 md:mb-16">
             Our story
           </h2>
 
           <div className="relative">
             {/* Years Display */}
-            <div className="flex items-center mb-24 md:mb-32">
-              <div className="w-full border-t border-b border-gray-200 py-8 md:py-12">
-                <div className="flex items-center justify-start">
+            <div className="mb-12 md:mb-24">
+              <div className="w-full border-t border-b border-gray-200 py-6 md:py-8">
+                <div className="flex items-center justify-start overflow-x-auto scrollbar-hide">
                   {years.map((year, index) => (
-                    <div key={year} className="flex items-center">
+                    <div key={year} className="flex items-center flex-shrink-0">
                       <span 
-                        className={`text-6xl md:text-7xl lg:text-8xl font-light transition-colors duration-300 ${
+                        className={`text-4xl md:text-6xl lg:text-8xl font-light transition-colors duration-300 ${
                           year === activeYear ? 'text-teal-600' : 'text-gray-200'
                         }`}
                       >
                         {year}
                       </span>
                       {index < years.length - 1 && (
-                        <div className="h-16 w-[1px] bg-gray-200 mx-12 md:mx-16" />
+                        <div className="h-12 md:h-16 w-[1px] bg-gray-200 mx-6 md:mx-12" />
                       )}
                     </div>
                   ))}
@@ -268,38 +268,38 @@ const AboutCompany = () => {
             </div>
 
             {/* Navigation and Content */}
-            <div className="grid grid-cols-12 gap-0">
-              {/* Navigation Arrows with Right Border */}
-              <div className="col-span-3 md:col-span-2 pr-12 md:pr-16 border-r border-gray-200">
-                <div className="flex items-center space-x-6">
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
+              {/* Navigation Arrows */}
+              <div className="col-span-1 md:col-span-3 flex md:block mb-8 md:mb-0 md:pr-16 md:border-r border-gray-200">
+                <div className="flex items-center space-x-4 md:space-x-6">
                   <button 
                     onClick={() => handleYearChange('prev')}
-                    className={`w-14 h-14 rounded-full flex items-center justify-center transition-all duration-300 ${
+                    className={`w-12 h-12 md:w-14 md:h-14 rounded-full flex items-center justify-center transition-all duration-300 ${
                       activeYear === years[0] 
                         ? 'bg-gray-100 text-gray-400 cursor-not-allowed' 
                         : 'bg-white text-teal-600 hover:bg-teal-50 border-2 border-gray-200 hover:border-teal-200'
                     }`}
                     disabled={activeYear === years[0]}
                   >
-                    <ChevronLeft className="w-6 h-6" />
+                    <ChevronLeft className="w-5 h-5 md:w-6 md:h-6" />
                   </button>
                   <button 
                     onClick={() => handleYearChange('next')}
-                    className={`w-14 h-14 rounded-full flex items-center justify-center transition-all duration-300 ${
+                    className={`w-12 h-12 md:w-14 md:h-14 rounded-full flex items-center justify-center transition-all duration-300 ${
                       activeYear === years[years.length - 1] 
                         ? 'bg-gray-100 text-gray-400 cursor-not-allowed' 
                         : 'bg-teal-600 text-white hover:bg-teal-700 shadow-sm'
                     }`}
                     disabled={activeYear === years[years.length - 1]}
                   >
-                    <ChevronRight className="w-6 h-6" />
+                    <ChevronRight className="w-5 h-5 md:w-6 md:h-6" />
                   </button>
                 </div>
               </div>
 
-              {/* Content with Left Padding */}
-              <div className="col-span-9 md:col-span-10 pl-12 md:pl-16">
-                <div className="space-y-12 transition-all duration-300">
+              {/* Content */}
+              <div className="col-span-1 md:col-span-9">
+                <div className="space-y-6 md:space-y-12 transition-all duration-300">
                   {storyContent[activeYear.toString()].map((text) => (
                     <p key={text} className="text-gray-600 text-base md:text-lg leading-relaxed max-w-3xl">
                       {text}

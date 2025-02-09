@@ -60,7 +60,7 @@ const Testimonials = () => {
   };
 
   const handlePrev = () => {
-    setDirection(-1);
+    setDirection(-1); 
     setActiveIndex((prev) => (prev === 0 ? testimonials.length - 1 : prev - 1));
   };
 
@@ -70,7 +70,7 @@ const Testimonials = () => {
   };
 
   return (
-    <section className="bg-[#00A45A] dark:bg-[#005A32] text-white">
+    <section className="bg-[#00A45A] dark:bg-[#005A32] text-white ">
       <div className="max-w-7xl mx-auto px-4 md:px-8 py-24 md:py-32">
         <div className="grid grid-cols-12 gap-8 md:gap-16">
           {/* Left Column - Image and Info */}

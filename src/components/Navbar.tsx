@@ -1,35 +1,48 @@
-import React, { useState } from 'react';
-import { Globe, Search, ChevronDown, Menu, X } from 'lucide-react';
+import { useState } from 'react';
+import { Search, ChevronDown, Menu, X, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useScrollToContact } from '../hooks/useScrollToContact';
 
 interface NavLink {
   title: string;
-  path: string;
+  path?: string;
+  submenu?: {
+    [key: string]: NavLink[];
+  };
 }
 
-type NavItem = NavLink[] | string[];
+type NavItem = NavLink[];
 
 const navItems: Record<string, NavItem> = {
   'About Us': [
-    { title: 'About Company', path: '/about-company' },
-    { title: 'Career', path: '/career' },
-    { title: 'Job Opening', path: '/job-opening' }
+    { title: 'Who we are', path: '/about-company' },
+    { title: 'How we work', path: '/how-we-work' },
+    { title: 'Why Qourin', path: '/why-qourin' },
+    { title: 'Team Member', path: '/team-member' },
+    { title: 'Publications', path: '/publications' }
   ],
-  'Enterprise': [
+  'Expertise': [
     { title: 'Software Development', path: '/enterprise/software-development' },
     { title: 'Web Development', path: '/enterprise/web-development' },
     { title: 'Mobile Development', path: '/enterprise/mobile-development' },
-    { title: 'Artificial Intelligence', path: '/enterprise/artificial-intelligence' },
-    { title: 'Backend Development', path: '/enterprise/backend-development' },
-    { title: 'Frontend Development', path: '/enterprise/frontend-development' },
-    { title: 'AR/VR Development', path: '/enterprise/ar-vr-development' },
-    { title: 'Blockchain Development', path: '/enterprise/blockchain-development' },
-    { title: 'AWS Cloud Consulting', path: '/enterprise/aws-consulting' },
-    { title: 'Azure Cloud Consulting', path: '/enterprise/azure-consulting' },
-    { title: 'Google Cloud Consulting', path: '/enterprise/google-cloud-consulting' },
     { title: 'Devops', path: '/enterprise/devops' },
-    { title: 'Cloud Consulting', path: '/enterprise/cloud-consulting' }
+    { title: 'Cloud Consulting', path: '/enterprise/cloud-consulting' },
+    {
+      title: 'Other Services',
+      submenu: {
+        'Services': [
+          { title: 'Artificial Intelligence', path: '/enterprise/artificial-intelligence' },
+          { title: 'Backend Development', path: '/enterprise/backend-development' },
+          { title: 'Frontend Development', path: '/enterprise/frontend-development' },
+          { title: 'AR/VR Development', path: '/enterprise/ar-vr-development' },
+          { title: 'Blockchain Development', path: '/enterprise/blockchain-development' },
+          { title: 'AWS Cloud Consulting', path: '/enterprise/aws-consulting' },
+          { title: 'Azure Cloud Consulting', path: '/enterprise/azure-consulting' },
+          { title: 'Google Cloud Consulting', path: '/enterprise/google-cloud-consulting' },
+          
+        ]
+      }
+    }
   ],
   'Industries': [
     { title: 'Healthcare', path: '/industry/healthcare' },
@@ -43,6 +56,7 @@ const navItems: Record<string, NavItem> = {
 
 const Navbar = () => {
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const [activeSubmenu, setActiveSubmenu] = useState<string | null>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const scrollToContact = useScrollToContact();
 
@@ -52,15 +66,23 @@ const Navbar = () => {
     }
   };
 
-  const handleMouseLeave = (e: React.MouseEvent) => {
+  const handleSubmenuEnter = (title: string) => {
     if (window.innerWidth >= 768) {
-      const relatedTarget = e.relatedTarget as HTMLElement;
-      const isLeavingToDropdown = relatedTarget?.closest('.dropdown-content');
-      const isLeavingFromDropdown = e.currentTarget.contains(relatedTarget);
-      
-      if (!isLeavingToDropdown && !isLeavingFromDropdown) {
-        setActiveDropdown(null);
-      }
+      setActiveSubmenu(activeSubmenu === title ? null : title);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    if (window.innerWidth >= 768) {
+      setActiveDropdown(null);
+      setActiveSubmenu(null);
+    }
+  };
+
+  const handleDropdownLeave = (e: React.MouseEvent) => {
+    const relatedTarget = e.relatedTarget as HTMLElement;
+    if (!relatedTarget?.closest('.dropdown-menu')) {
+      handleMouseLeave();
     }
   };
 
@@ -71,8 +93,8 @@ const Navbar = () => {
   };
 
   return (
-    <div className="fixed top-0 left-0 right-0 z-50">
-      <nav className="bg-white dark:bg-gray-900 h-16 px-4 md:px-8 flex items-center justify-between shadow-lg relative">
+    <div className="fixed top-0 left-0 right-0 z-50 font-reguler">
+      <nav className="bg-[#EBEBED] dark:bg-gray-900 h-16 px-4 md:px-8 flex items-center justify-between border-b-2 border-gray-300 dark:border-gray-700 relative">
         {/* Logo Section */}
         <div className="flex items-center">
           <Link to="/" className="flex items-center space-x-3 hover:opacity-80 transition-opacity">
@@ -80,9 +102,8 @@ const Navbar = () => {
             <span className="text-xl font-normal tracking-tight text-gray-900 dark:text-white">Qourin</span>
           </Link>
           <div className="ml-4 md:ml-[200px] flex items-center h-full">
-            <Globe className="w-5 h-5 text-gray-600 dark:text-gray-400" />
           </div>
-          <div className="hidden md:block h-16 w-[1px] bg-gray-200 dark:bg-gray-700 mx-8" />
+          <div className="hidden md:block h-16 w-[1px] bg-white dark:bg-gray-700 mx-8" />
         </div>
         
         {/* Mobile Menu Button */}
@@ -104,9 +125,9 @@ const Navbar = () => {
             {Object.entries(navItems).map(([title, items]) => (
               <div 
                 key={title}
-                className="relative h-16 flex items-center"
+                className="relative h-16 flex items-center dropdown-menu"
                 onMouseEnter={() => handleMouseEnter(title)}
-                onMouseLeave={handleMouseLeave}
+                onMouseLeave={handleDropdownLeave}
               >
                 <button 
                   className={`flex items-center space-x-1 h-full px-1 text-gray-700 dark:text-gray-300 hover:text-teal-600 dark:hover:text-teal-500 transition-colors ${
@@ -125,54 +146,86 @@ const Navbar = () => {
                 }`} />
                 
                 {/* Dropdown Content */}
-                <div 
-                  className={`dropdown-content absolute top-full left-1/2 -translate-x-1/2 w-64 bg-white dark:bg-gray-900 shadow-xl border border-gray-100 dark:border-gray-700 transition-all duration-300 ${
-                    activeDropdown === title 
-                      ? 'opacity-100 translate-y-0' 
-                      : 'opacity-0 translate-y-2 pointer-events-none'
-                  }`}
-                >
-                  <div className="py-2 px-3 bg-gradient-to-br from-teal-50 dark:from-teal-900/20 to-white dark:to-gray-900 border-b border-gray-100 dark:border-gray-700">
-                    <h3 className="text-sm font-normal text-teal-900 dark:text-teal-100">{title}</h3>
+                {activeDropdown === title && (
+                  <div className="absolute top-full left-0 w-[300px] bg-[#EBEBED] dark:bg-gray-800 backdrop-blur-lg border border-white/50 dark:border-gray-700 overflow-hidden transform transition-all duration-300 ease-out dropdown-menu animate-in slide-in-from-top-2">
+                    <div className="py-3">
+                      {items.map((item, index) => (
+                        <>
+                          {index > 0 && <div className="h-[1px] w-full bg-white/80 dark:bg-gray-700" />}
+                          {item.submenu ? (
+                            <div key={item.title}>
+                              <button 
+                                onClick={() => handleSubmenuEnter(item.title)}
+                                className="w-full px-6 py-3 text-gray-700 dark:text-gray-300 hover:text-teal-600 dark:hover:text-teal-500 hover:bg-white/40 dark:hover:bg-gray-700/50 transition-all duration-200 flex items-center justify-between group relative"
+                              >
+                                <span className="font-medium">{item.title}</span>
+                                <ChevronDown className={`w-4 h-4 text-gray-400 group-hover:text-teal-600 dark:group-hover:text-teal-500 transform transition-all duration-300 ${
+                                  activeSubmenu === item.title ? 'rotate-180' : ''
+                                }`} />
+                              </button>
+
+                              <div className={`overflow-hidden transition-all duration-300 transform ${
+                                activeSubmenu === item.title ? 'max-h-[500px] opacity-100 translate-y-0' : 'max-h-0 opacity-0 -translate-y-4'
+                              }`}>
+                                {Object.entries(item.submenu).map(([category, subItems]) => (
+                                  <div key={category} className="bg-white/20 dark:bg-gray-700/20">
+                                    <div className="px-6 py-2 text-sm font-semibold text-gray-900 dark:text-gray-100 bg-white/30 dark:bg-gray-700/30">
+                                      {category}
+                                    </div>
+                                    <div className="pb-2">
+                                      {subItems.map((subItem, subIndex) => (
+                                        <>
+                                          {subIndex > 0 && <div className="h-[1px] w-full bg-white/50 dark:bg-gray-700" />}
+                                          <Link
+                                            key={subItem.path}
+                                            to={subItem.path!}
+                                            className="group block px-8 py-2.5 text-gray-600 dark:text-gray-400 hover:text-teal-600 dark:hover:text-teal-500 hover:bg-white/40 dark:hover:bg-gray-700/50 transition-all duration-200 relative"
+                                          >
+                                            <div className="flex items-center justify-between">
+                                              <span className="relative">
+                                                {subItem.title}
+                                              </span>
+                                              <ChevronRight className="w-4 h-4 text-gray-400 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 group-hover:text-teal-600 dark:group-hover:text-teal-500 transition-all duration-200" />
+                                            </div>
+                                          </Link>
+                                        </>
+                                      ))}
+                                    </div>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          ) : (
+                            <Link
+                              key={item.path}
+                              to={item.path!}
+                              className="group block px-6 py-3 text-gray-600 dark:text-gray-400 hover:text-teal-600 dark:hover:text-teal-500 hover:bg-white/40 dark:hover:bg-gray-700/50 transition-all duration-200 relative"
+                            >
+                              <div className="flex items-center justify-between">
+                                <span className="relative">
+                                  {item.title}
+                                </span>
+                                <ChevronRight className="w-4 h-4 text-gray-400 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 group-hover:text-teal-600 dark:group-hover:text-teal-500 transition-all duration-200" />
+                              </div>
+                            </Link>
+                          )}
+                        </>
+                      ))}
+                    </div>
                   </div>
-                  <div className="py-1">
-                    {items.every(item => typeof item === 'string') ? (
-                      // Regular items array
-                      items.map((item) => (
-                        <a
-                          key={item}
-                          href="#"
-                          className="flex items-center px-3 py-2 text-sm text-gray-600 dark:text-gray-400 hover:bg-gradient-to-r hover:from-teal-50/50 dark:hover:from-teal-900/20 hover:to-white dark:hover:to-gray-900 hover:text-teal-700 dark:hover:text-teal-400 transition-all duration-150 group"
-                          onClick={(e) => e.preventDefault()}
-                        >
-                          <span className="relative pl-2 font-normal">
-                            <div className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-0 bg-teal-500 transition-all duration-200 group-hover:h-full" />
-                            {item}
-                          </span>
-                        </a>
-                      ))
-                    ) : (
-                      // Object with title and path
-                      (items as NavLink[]).map((item) => (
-                        <Link
-                          key={item.title}
-                          to={item.path}
-                          className="flex items-center px-3 py-2 text-sm text-gray-600 dark:text-gray-400 hover:bg-gradient-to-r hover:from-teal-50/50 dark:hover:from-teal-900/20 hover:to-white dark:hover:to-gray-900 hover:text-teal-700 dark:hover:text-teal-400 transition-all duration-150 group"
-                          onClick={() => setActiveDropdown(null)}
-                        >
-                          <span className="relative pl-2 font-normal">
-                            <div className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-0 bg-teal-500 transition-all duration-200 group-hover:h-full" />
-                            {item.title}
-                          </span>
-                        </Link>
-                      ))
-                    )}
-                  </div>
-                </div>
+                )}
               </div>
             ))}
 
             {/* Regular Menu Items */}
+            <div className="relative h-16 flex items-center">
+              <button className="flex items-center space-x-1 h-full px-1 text-gray-700 dark:text-white hover:text-teal-600 dark:hover:text-teal-500 transition-colors">
+                <Link to="/research-and-development" className="font-normal">
+                  R&D
+                </Link>
+              </button>
+              <div className="absolute bottom-0 left-0 w-full h-0.5 bg-teal-600 scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
+            </div>
             {['Portfolio'].map((item) => (
               <div key={item} className="relative h-16 flex items-center">
                 <button className="flex items-center space-x-1 h-full px-1 text-gray-700 dark:text-white hover:text-teal-600 dark:hover:text-teal-500 transition-colors">
@@ -191,6 +244,7 @@ const Navbar = () => {
               </button>
               <div className="absolute bottom-0 left-0 w-full h-0.5 bg-teal-600 scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
             </div>
+            
           </div>
           
           {/* Action Buttons */}
@@ -208,14 +262,15 @@ const Navbar = () => {
         </div>
 
         {/* Mobile Navigation */}
-        <div className={`md:hidden fixed inset-0 top-16 bg-white dark:bg-gray-900 transition-transform duration-300 transform ${
+        <div className={`md:hidden fixed inset-0 top-16 bg-[#EBEBED] dark:bg-gray-800 transition-transform duration-300 transform ${
           isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
         } overflow-y-auto`}>
           <div className="h-full pb-20">
             {/* Mobile Menu Items */}
-            <div className="px-4 py-2 space-y-2">
-              {Object.entries(navItems).map(([title, items]) => (
-                <div key={title} className="border-b border-gray-100 dark:border-gray-800">
+            <div className="px-4 py-2">
+              {Object.entries(navItems).map(([title, items], mainIndex) => (
+                <div key={title}>
+                  {mainIndex > 0 && <div className="h-[1px] w-full bg-white/80 dark:bg-gray-700 my-2" />}
                   <button
                     className="w-full py-4 flex items-center justify-between text-gray-700 dark:text-gray-300 hover:text-teal-600 dark:hover:text-teal-500"
                     onClick={() => toggleMobileDropdown(title)}
@@ -226,36 +281,78 @@ const Navbar = () => {
                     }`} />
                   </button>
                   
-                  <div className={`overflow-hidden transition-all duration-300 ${
-                    activeDropdown === title ? 'max-h-[500px]' : 'max-h-0'
+                  <div className={`overflow-hidden transition-all duration-300 transform ${
+                    activeDropdown === title ? 'max-h-[800px] opacity-100 translate-y-0' : 'max-h-0 opacity-0 -translate-y-4'
                   }`}>
-                    <div className="pb-4 space-y-1">
-                      {Array.isArray(items) && items.map((item) => (
-                        typeof item === 'string' ? (
-                          <a
-                            key={item}
-                            href="#"
-                            className="block py-3 px-6 text-base text-gray-600 dark:text-gray-400 hover:bg-teal-50 dark:hover:bg-teal-900/20 hover:text-teal-600 dark:hover:text-teal-400 rounded-lg transition-colors"
-                            onClick={(e) => {
-                              e.preventDefault();
-                              setIsMobileMenuOpen(false);
-                            }}
-                          >
-                            {item}
-                          </a>
-                        ) : (
-                          <Link
-                            key={item.title}
-                            to={item.path}
-                            className="block py-3 px-6 text-base text-gray-600 dark:text-gray-400 hover:bg-teal-50 dark:hover:bg-teal-900/20 hover:text-teal-600 dark:hover:text-teal-400 rounded-lg transition-colors"
-                            onClick={() => {
-                              setActiveDropdown(null);
-                              setIsMobileMenuOpen(false);
-                            }}
-                          >
-                            {item.title}
-                          </Link>
-                        )
+                    <div className="py-2">
+                      {items.map((item, index) => (
+                        <>
+                          {index > 0 && <div className="h-[1px] w-full bg-white/50 dark:bg-gray-700" />}
+                          {item.submenu ? (
+                            <div key={item.title}>
+                              <button
+                                onClick={() => {
+                                  if (window.innerWidth < 768) {
+                                    handleSubmenuEnter(item.title);
+                                  }
+                                }}
+                                className="w-full px-6 py-3 text-gray-700 dark:text-gray-300 hover:text-teal-600 dark:hover:text-teal-500 hover:bg-white/40 dark:hover:bg-gray-700/50 transition-all duration-200 flex items-center justify-between"
+                              >
+                                <span className="font-medium">{item.title}</span>
+                                <ChevronDown className={`w-4 h-4 text-gray-400 dark:text-gray-500 transform transition-all duration-300 ${
+                                  activeSubmenu === item.title ? 'rotate-180' : ''
+                                }`} />
+                              </button>
+
+                              <div className={`overflow-hidden transition-all duration-300 transform ${
+                                activeSubmenu === item.title ? 'max-h-[500px] opacity-100 translate-y-0' : 'max-h-0 opacity-0 -translate-y-4'
+                              }`}>
+                                {Object.entries(item.submenu).map(([category, subItems]) => (
+                                  <div key={category} className="bg-white/20 dark:bg-gray-700/20">
+                                    <div className="px-6 py-2 text-sm font-semibold text-gray-900 dark:text-gray-100 bg-white/30 dark:bg-gray-700/30">
+                                      {category}
+                                    </div>
+                                    <div className="py-2">
+                                      {subItems.map((subItem, subIndex) => (
+                                        <>
+                                          {subIndex > 0 && <div className="h-[1px] w-full bg-white/50 dark:bg-gray-700" />}
+                                          <Link
+                                            key={subItem.path}
+                                            to={subItem.path!}
+                                            className="block px-8 py-3 text-gray-600 dark:text-gray-400 hover:text-teal-600 dark:hover:text-teal-500 hover:bg-white/40 dark:hover:bg-gray-700/50 transition-all duration-200"
+                                            onClick={() => {
+                                              if (window.innerWidth < 768) {
+                                                setActiveSubmenu(null);
+                                                setActiveDropdown(null);
+                                                setIsMobileMenuOpen(false);
+                                              }
+                                            }}
+                                          >
+                                            {subItem.title}
+                                          </Link>
+                                        </>
+                                      ))}
+                                    </div>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          ) : (
+                            <Link
+                              key={item.path}
+                              to={item.path!}
+                              className="block px-6 py-3 text-gray-600 dark:text-gray-400 hover:text-teal-600 dark:hover:text-teal-500 hover:bg-white/40 dark:hover:bg-gray-700/50 transition-all duration-200"
+                              onClick={() => {
+                                if (window.innerWidth < 768) {
+                                  setActiveDropdown(null);
+                                  setIsMobileMenuOpen(false);
+                                }
+                              }}
+                            >
+                              {item.title}
+                            </Link>
+                          )}
+                        </>
                       ))}
                     </div>
                   </div>
@@ -263,30 +360,56 @@ const Navbar = () => {
               ))}
 
               {/* Mobile Regular Menu Items */}
+              <div className="h-[1px] w-full bg-white/80 dark:bg-gray-700 my-2" />
               <Link 
-                to="/portfolio" 
-                className="block py-4 px-4 text-lg text-gray-700 dark:text-gray-300 hover:text-teal-600 dark:hover:text-teal-500 border-b border-gray-100 dark:border-gray-800"
+                to="/research-and-development" 
+                className="block py-4 px-6 text-gray-700 dark:text-gray-300 hover:text-teal-600 dark:hover:text-teal-500 hover:bg-white/40 dark:hover:bg-gray-700/50 transition-all duration-200"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
-                Portfolio
+                <div className="flex items-center justify-between">
+                  <span>R&D</span>
+                  <ChevronRight className="w-4 h-4 text-gray-400 dark:text-gray-500" />
+                </div>
               </Link>
               <Link 
-                to="/career" 
-                className="block py-4 px-4 text-lg text-gray-700 dark:text-gray-300 hover:text-teal-600 dark:hover:text-teal-500 border-b border-gray-100 dark:border-gray-800"
+                to="/portfolio" 
+                className="block py-4 px-6 text-gray-700 dark:text-gray-300 hover:text-teal-600 dark:hover:text-teal-500 hover:bg-white/40 dark:hover:bg-gray-700/50 transition-all duration-200"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
-                Career
+                <div className="flex items-center justify-between">
+                  <span>Portfolio</span>
+                  <ChevronRight className="w-4 h-4 text-gray-400 dark:text-gray-500" />
+                </div>
+              </Link>
+              <div className="h-[1px] w-full bg-white/80 dark:bg-gray-700 my-2" />
+              <Link 
+                to="/career" 
+                className="block py-4 px-6 text-gray-700 dark:text-gray-300 hover:text-teal-600 dark:hover:text-teal-500 hover:bg-white/40 dark:hover:bg-gray-700/50 transition-all duration-200"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                <div className="flex items-center justify-between">
+                  <span>Career</span>
+                  <ChevronRight className="w-4 h-4 text-gray-400 dark:text-gray-500" />
+                </div>
               </Link>
 
               {/* Mobile Action Buttons */}
-              <div className="fixed bottom-0 left-0 right-0 p-4 bg-white dark:bg-gray-900 border-t border-gray-100 dark:border-gray-800 flex flex-col gap-3">
+              <div className="fixed bottom-0 left-0 right-0 p-4 bg-[#EBEBED] dark:bg-gray-800 border-t border-white/80 dark:border-gray-700 flex flex-col gap-3">
                 <button 
-                  onClick={scrollToContact}
+                  onClick={() => {
+                    setIsMobileMenuOpen(false);
+                    const contactSection = document.getElementById('contact');
+                    if (contactSection) {
+                      setTimeout(() => {
+                        contactSection.scrollIntoView({ behavior: 'smooth' });
+                      }, 300);
+                    }
+                  }}
                   className="w-full py-3 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors font-normal text-base"
                 >
                   Contact us
                 </button>
-                <button className="w-full py-3 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors flex items-center justify-center gap-2">
+                <button className="w-full py-3 bg-white/40 dark:bg-gray-700/40 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-white/60 dark:hover:bg-gray-700/60 transition-colors flex items-center justify-center gap-2">
                   <Search className="w-5 h-5" />
                   <span className="font-normal">Search</span>
                 </button>

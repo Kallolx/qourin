@@ -52,38 +52,38 @@ const ArtificialIntelligence = () => {
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <div className="max-w-7xl mx-auto px-4 md:px-8 pt-16 md:pt-24">
+      <div className="max-w-7xl mx-auto px-4 md:px-8 pt-8 md:pt-16">
         <div className="relative">
           {/* Vertical Line */}
-          <div className="absolute left-0 top-0 bottom-0 w-[2px] bg-gray-200" />
+          <div className="absolute left-0 top-0 bottom-0 w-[1px] bg-gray-200" />
 
           {/* Title Section */}
           <div className="border-b-2 border-gray-200">
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-light text-gray-900 max-w-8xl pl-16 pb-12">
-            Artificial intelligence software development:{" "}
+            <h1 className="text-4xl md:text-5xl lg:text-7xl font-light text-gray-900 max-w-4xl pl-4 md:pl-8 pb-8 md:pb-12">
+              Artificial Intelligence{" "}
               <br className="hidden md:block" />
-              Where innovation drives real-world results
+              Development Services
             </h1>
           </div>
 
           {/* Content Grid */}
-          <div className="grid grid-cols-12 gap-8 py-12">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 py-8 md:py-12">
             {/* Left Section - Empty */}
-            <div className="col-span-12 md:col-span-5">
-            </div>
+            <div className="hidden md:block md:col-span-5"></div>
 
             {/* Right Section - Description */}
-            <div className="col-span-12 md:col-span-7">
-              <p className="text-lg text-gray-600 font-light leading-relaxed">
-                We help organizations harness the power of artificial intelligence to drive innovation 
-                and create competitive advantages. Our AI services combine cutting-edge technology 
-                with practical business applications to deliver transformative solutions.
+            <div className="col-span-1 md:col-span-7">
+              <p className="text-base md:text-lg text-gray-600 font-light leading-relaxed">
+                We specialize in developing cutting-edge AI solutions that transform businesses. 
+                Our expertise spans machine learning, deep learning, and natural language processing, 
+                helping organizations harness the power of artificial intelligence to drive innovation 
+                and growth.
               </p>
             </div>
           </div>
 
           {/* Hero Image */}
-          <div className="aspect-[16/9] w-full overflow-hidden">
+          <div className="aspect-[16/9] w-full overflow-hidden mt-4 md:mt-0">
             <img 
               src="https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=2070&auto=format&fit=crop"
               alt="Artificial Intelligence" 
@@ -94,142 +94,49 @@ const ArtificialIntelligence = () => {
       </div>
 
       {/* Services Section */}
-      <div className="bg-teal-700 text-white">
-        <div className="max-w-7xl mx-auto px-4 md:px-8 py-16 md:py-24">
+      <div className="bg-teal-700 text-white mt-8 md:mt-0">
+        <div className="max-w-7xl mx-auto px-4 md:px-8 py-12 md:py-24">
           {/* Section Title */}
-          <h2 className="text-4xl md:text-5xl font-light mb-16 text-center">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-light mb-12 md:mb-16 text-center">
             Services we provide
           </h2>
 
           {/* Services Grid */}
           <div className="space-y-0 divide-y-2 divide-teal-500">
-            {/* Machine Learning Solutions */}
-            <div className="grid grid-cols-12 gap-8 py-20">
-              <div className="col-span-12 md:col-span-4">
-                <div className="flex items-center gap-3 group">
-                  <h3 className="text-2xl font-light group-hover:text-teal-200 transition-colors">
-                    Machine learning solutions
-                  </h3>
-                  <ArrowUpRight className="w-6 h-6 opacity-0 group-hover:opacity-100 transition-opacity text-teal-200" />
+            {workSteps.map((step, index) => (
+              <div key={step.number} className="py-8 md:py-20">
+                <div className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8">
+                  <div className="col-span-1 md:col-span-4">
+                    <div className="flex items-center gap-3 group">
+                      <h3 className="text-xl md:text-2xl font-light group-hover:text-teal-200 transition-colors">
+                        {step.title}
+                      </h3>
+                      <ArrowUpRight className="w-5 h-5 md:w-6 md:h-6 opacity-0 group-hover:opacity-100 transition-opacity text-teal-200" />
+                    </div>
+                  </div>
+                  <div className="col-span-1 md:col-span-8 text-teal-50/90">
+                    <p className="text-sm md:text-base font-light leading-relaxed">
+                      {step.description}
+                    </p>
+                  </div>
                 </div>
               </div>
-              <div className="col-span-12 md:col-span-8 text-teal-50/90 space-y-6">
-                <p>
-                  We develop custom machine learning models that can analyze complex data patterns, 
-                  make accurate predictions, and automate decision-making processes to improve 
-                  operational efficiency and drive business growth.
-                </p>
-              </div>
-            </div>
-
-            {/* Natural Language Processing */}
-            <div className="grid grid-cols-12 gap-8 py-20">
-              <div className="col-span-12 md:col-span-4">
-                <div className="flex items-center gap-3 group">
-                  <h3 className="text-2xl font-light group-hover:text-teal-200 transition-colors">
-                    Natural language processing
-                  </h3>
-                  <ArrowUpRight className="w-6 h-6 opacity-0 group-hover:opacity-100 transition-opacity text-teal-200" />
-                </div>
-              </div>
-              <div className="col-span-12 md:col-span-8 text-teal-50/90 space-y-6">
-                <p>
-                  Our NLP solutions enable computers to understand, interpret, and generate human 
-                  language, powering applications like chatbots, sentiment analysis, and automated 
-                  content generation.
-                </p>
-              </div>
-            </div>
-
-            {/* Computer Vision */}
-            <div className="grid grid-cols-12 gap-8 py-20">
-              <div className="col-span-12 md:col-span-4">
-                <div className="flex items-center gap-3 group">
-                  <h3 className="text-2xl font-light group-hover:text-teal-200 transition-colors">
-                    Computer vision
-                  </h3>
-                  <ArrowUpRight className="w-6 h-6 opacity-0 group-hover:opacity-100 transition-opacity text-teal-200" />
-                </div>
-              </div>
-              <div className="col-span-12 md:col-span-8 text-teal-50/90 space-y-6">
-                <p>
-                  We build advanced computer vision systems that can analyze and understand visual 
-                  information from images and videos, enabling applications like object detection, 
-                  facial recognition, and quality control automation.
-                </p>
-              </div>
-            </div>
-
-            {/* Predictive Analytics */}
-            <div className="grid grid-cols-12 gap-8 py-20">
-              <div className="col-span-12 md:col-span-4">
-                <div className="flex items-center gap-3 group">
-                  <h3 className="text-2xl font-light group-hover:text-teal-200 transition-colors">
-                    Predictive analytics
-                  </h3>
-                  <ArrowUpRight className="w-6 h-6 opacity-0 group-hover:opacity-100 transition-opacity text-teal-200" />
-                </div>
-              </div>
-              <div className="col-span-12 md:col-span-8 text-teal-50/90 space-y-6">
-                <p>
-                  Our predictive analytics solutions use historical data and machine learning to forecast 
-                  future trends, identify potential risks, and uncover new opportunities for business 
-                  growth.
-                </p>
-              </div>
-            </div>
-
-            {/* AI Consulting */}
-            <div className="grid grid-cols-12 gap-8 py-20">
-              <div className="col-span-12 md:col-span-4">
-                <div className="flex items-center gap-3 group">
-                  <h3 className="text-2xl font-light group-hover:text-teal-200 transition-colors">
-                    AI consulting
-                  </h3>
-                  <ArrowUpRight className="w-6 h-6 opacity-0 group-hover:opacity-100 transition-opacity text-teal-200" />
-                </div>
-              </div>
-              <div className="col-span-12 md:col-span-8 text-teal-50/90 space-y-6">
-                <p>
-                  We provide strategic guidance on AI adoption, helping organizations identify the 
-                  right opportunities, choose appropriate technologies, and develop implementation 
-                  roadmaps.
-                </p>
-              </div>
-            </div>
-
-            {/* AI Integration */}
-            <div className="grid grid-cols-12 gap-8 py-20">
-              <div className="col-span-12 md:col-span-4">
-                <div className="flex items-center gap-3 group">
-                  <h3 className="text-2xl font-light group-hover:text-teal-200 transition-colors">
-                    AI integration
-                  </h3>
-                  <ArrowUpRight className="w-6 h-6 opacity-0 group-hover:opacity-100 transition-opacity text-teal-200" />
-                </div>
-              </div>
-              <div className="col-span-12 md:col-span-8 text-teal-50/90 space-y-6">
-                <p>
-                  We seamlessly integrate AI solutions into existing systems and workflows, ensuring 
-                  smooth adoption and maximum value from your AI investments.
-                </p>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </div>
 
       {/* How We Work Section */}
       <div className="bg-white">
-        <div className="max-w-7xl mx-auto px-4 md:px-8 py-16 md:py-24">
+        <div className="max-w-7xl mx-auto px-4 md:px-8 py-12 md:py-24">
           {/* Section Title */}
-          <div className="max-w-3xl mx-auto text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-light mb-6">
+          <div className="max-w-3xl mx-auto text-center mb-12 md:mb-16">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-light mb-4 md:mb-6">
               How we work
             </h2>
-            <p className="text-gray-600">
-              From initial assessment to deployment and optimization, we follow a structured approach 
-              to implement AI solutions that deliver real business value.
+            <p className="text-base md:text-lg text-gray-600 font-light">
+              From initial analysis to deployment and optimization, we follow a structured approach 
+              to deliver AI solutions that exceed expectations.
             </p>
           </div>
 
@@ -243,10 +150,10 @@ const ArtificialIntelligence = () => {
                 }`}
                 onClick={() => setActiveStep(index)}
               >
-                <div className="grid grid-cols-12 items-start">
+                <div className="grid grid-cols-1 md:grid-cols-12 items-start">
                   {/* Number */}
-                  <div className="col-span-4 md:col-span-3 py-12 pl-12">
-                    <span className={`text-7xl md:text-8xl font-light transition-colors duration-500 ${
+                  <div className="col-span-1 md:col-span-3 py-8 md:py-12 px-4 md:pl-12">
+                    <span className={`text-5xl md:text-7xl lg:text-8xl font-light transition-colors duration-500 ${
                       activeStep === index ? 'text-white' : 'text-gray-200'
                     }`}>
                       {step.number}
@@ -254,12 +161,12 @@ const ArtificialIntelligence = () => {
                   </div>
 
                   {/* Empty Gap Column */}
-                  <div className="hidden md:block col-span-2"></div>
+                  <div className="hidden md:block md:col-span-2"></div>
 
                   {/* Title and Description */}
-                  <div className="col-span-8 md:col-span-7 py-12 pr-12">
-                    <div className="max-w-xl ml-auto">
-                      <h3 className={`text-xl font-light mb-6 transition-colors duration-500 ${
+                  <div className="col-span-1 md:col-span-7 py-4 md:py-12 px-4 md:pr-12">
+                    <div className="max-w-xl ml-0 md:ml-auto">
+                      <h3 className={`text-lg md:text-xl font-light mb-4 md:mb-6 transition-colors duration-500 ${
                         activeStep === index ? 'text-white' : 'text-gray-900'
                       }`}>
                         {step.title}
@@ -270,7 +177,7 @@ const ArtificialIntelligence = () => {
                         }`}
                       >
                         <div className="overflow-hidden">
-                          <p className={`text-base leading-relaxed transition-colors duration-500 ${
+                          <p className={`text-sm md:text-base leading-relaxed transition-colors duration-500 ${
                             activeStep === index ? 'text-white/90' : 'text-gray-600'
                           }`}>
                             {step.description}
@@ -288,11 +195,12 @@ const ArtificialIntelligence = () => {
 
       {/* Testimonials Section */}
       <Testimonials />
+
       {/* Our Work Section */}
       <OurWork />
+
       {/* Contact Section */}
       <Contact />
-      
     </div>
   );
 };

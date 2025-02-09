@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef, TouchEvent } from "react";
 import { ArrowUpRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-
 const slides = [
   {
     id: 1,
@@ -45,7 +44,7 @@ const slides = [
       "At Qourin, unparalleled customer care isn't just a promise — it's our mission. We blend personalized experience, unwavering attention to detail, and a genuine passion for your business, ensuring that every aspect of our collaboration is tailored to your success",
     buttonText: "Schedule a call",
     bgColor: "bg-teal-600",
-    route: "/enterprise/cloud-consulting",
+    route: "tel:+8801612140042",
   },
 ];
 
@@ -55,6 +54,19 @@ const Home = () => {
   const [progress, setProgress] = useState(0);
   const touchStartX = useRef(0);
   const touchEndX = useRef(0);
+
+  // Add handleCall function
+  const handleCall = () => {
+    const phoneNumber = '+8801612140042';
+    if (/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+      // Mobile devices - use tel: protocol
+      window.location.href = `tel:${phoneNumber}`;
+    } else {
+      // Desktop - show the number or copy to clipboard
+      navigator.clipboard.writeText(phoneNumber);
+      alert('Phone number copied to clipboard: ' + phoneNumber);
+    }
+  };
 
   // Handle touch events for swipe
   const handleTouchStart = (e: TouchEvent) => {
@@ -140,7 +152,7 @@ const Home = () => {
               {/* Desktop Button - Hidden on Mobile */}
               <div className="hidden md:block w-full md:w-[500px] mt-8 px-6 md:ml-auto md:pr-16">
                 <button
-                  onClick={() => navigate(slides[activeIndex].route)}
+                  onClick={() => activeIndex === 3 ? handleCall() : navigate(slides[activeIndex].route)}
                   className={`flex items-center justify-between w-full ${slides[activeIndex].bgColor} text-white py-4 md:py-5 group hover:opacity-90 transition-opacity`}
                 >
                   <span className="pl-8 text-base md:text-lg font-light">
@@ -208,7 +220,7 @@ const Home = () => {
               </div>
 
               {/* Diagonal Cut Overlay */}
-              <div className="absolute bottom-0 right-0 w-[300px]">
+              <div className="absolute bottom-0 right-0 w-[200px]">
                 <img
                   src="/hero/cut.png"
                   alt="diagonal cut"
@@ -269,7 +281,7 @@ const Home = () => {
 
               {/* Mobile Button */}
               <button
-                onClick={() => navigate(slides[activeIndex].route)}
+                onClick={() => activeIndex === 3 ? handleCall() : navigate(slides[activeIndex].route)}
                 className={`w-full ${slides[activeIndex].bgColor} text-white h-16 mt-4 flex items-center justify-between px-8 group hover:opacity-90 transition-opacity`}
               >
                 <span className="text-base font-light">
@@ -284,6 +296,7 @@ const Home = () => {
         {/* Separation Line */}
         <div className="w-full h-px bg-gray-200 dark:bg-gray-800 mt-12 md:mt-24" />
       </div>
+
     </div>
   );
 };

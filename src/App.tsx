@@ -5,8 +5,6 @@ import { HelmetProvider } from 'react-helmet-async';
 import Navbar from './components/Navbar';
 import Home from './components/Home';
 import About from './components/About';
-import Stats from './components/Stats';
-import HowWeWork from './components/HowWeWork';
 import Testimonials from './components/Testimonials';
 import OurWork from './components/OurWork';
 import Contact from './components/Contact';
@@ -15,6 +13,8 @@ import SEO from './components/SEO';
 import AboutCompany from './pages/AboutCompany';
 import Careers from './pages/Careers';
 import JobOpenings from './pages/JobOpenings';
+import TeamMember from './pages/TeamMember';
+import Publications from './pages/Publications';
 import SoftwareDevelopment from './pages/enterprise/SoftwareDevelopment';
 import WebDevelopment from './pages/enterprise/WebDevelopment';
 import MobileDevelopment from './pages/enterprise/MobileDevelopment';
@@ -36,7 +36,8 @@ import Ecommerce from './pages/industry/Ecommerce';
 import Education from './pages/industry/Education';
 import FoodBeverage from './pages/industry/FoodBeverage';
 import Automotive from './pages/industry/Automotive';
-import FloatingDarkMode from './components/FloatingDarkMode';
+import OurTeams from './components/OurTeams';
+import ResearchAndDevelopment from './pages/ResearchAndDevelopment';
 
 // Breadcrumb schema for better SEO
 const getBreadcrumbSchema = (path: string) => {
@@ -83,7 +84,6 @@ function App() {
           <div className="min-h-screen bg-white dark:bg-gray-900">
             <SEO /> {/* Default SEO component */}
             <Navbar />
-            <FloatingDarkMode />
             <div className="pt-16"> {/* Add padding top to account for fixed navbar */}
               <Routes>
                 <Route path="/" element={
@@ -96,8 +96,7 @@ function App() {
                     />
                     <Home />
                     <About />
-                    <Stats />
-                    <HowWeWork />
+                    <OurTeams />
                     <Testimonials />
                     <OurWork />
                     <Contact />
@@ -114,6 +113,19 @@ function App() {
                       schema={getBreadcrumbSchema('/about-company')}
                     />
                     <AboutCompany />
+                  </>
+                } />
+                <Route path="/team-member" element={
+                  <>
+                    <SEO 
+                      title="Team Members - Meet the Qourin Team"
+                      description="Meet the talented team behind Qourin. Our diverse group of experts brings innovation and excellence to every project."
+                      keywords="qourin team, leadership team, tech experts, software development team"
+                      ogUrl="https://qourin.com/team-member"
+                      canonical="https://qourin.com/team-member"
+                      schema={getBreadcrumbSchema('/team-member')}
+                    />
+                    <TeamMember />
                   </>
                 } />
                 <Route path="/career" element={<Careers />} />
@@ -156,6 +168,32 @@ function App() {
                 <Route path="/industry/education" element={<Education />} />
                 <Route path="/industry/food-beverage" element={<FoodBeverage />} />
                 <Route path="/industry/automotive" element={<Automotive />} />
+                <Route path="/publications" element={
+                  <>
+                    <SEO 
+                      title="Publications - Research & Insights | Qourin"
+                      description="Explore Qourin's latest research papers, white papers, and technical publications on technology innovation and digital transformation."
+                      keywords="research papers, white papers, technical publications, technology research, digital innovation"
+                      ogUrl="https://qourin.com/publications"
+                      canonical="https://qourin.com/publications"
+                      schema={getBreadcrumbSchema('/publications')}
+                    />
+                    <Publications />
+                  </>
+                } />
+                <Route path="/research-and-development" element={
+                  <>
+                    <SEO 
+                      title="Research & Development - Innovation Hub | Qourin"
+                      description="Explore Qourin's cutting-edge R&D initiatives, where we pioneer breakthrough technologies and innovative solutions that shape the future of digital transformation."
+                      keywords="research and development, innovation, technology research, digital transformation"
+                      ogUrl="https://qourin.com/research-and-development"
+                      canonical="https://qourin.com/research-and-development"
+                      schema={getBreadcrumbSchema('/research-and-development')}
+                    />
+                    <ResearchAndDevelopment />
+                  </>
+                } />
               </Routes>
             </div>
             <Footer />
