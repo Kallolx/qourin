@@ -94,7 +94,7 @@ const Navbar = () => {
 
   return (
     <div className="fixed top-0 left-0 right-0 z-50 font-reguler">
-      <nav className="bg-[#ffffff] dark:bg-gray-900 h-16 px-4 md:px-8 flex items-center justify-between border-b-2 border-gray-300 dark:border-gray-700 relative">
+      <nav className="bg-[#ffffff] dark:bg-gray-900 h-16 px-4 md:px-8 flex items-center justify-between border-b border-gray-300 dark:border-gray-700 relative">
         {/* Logo Section */}
         <div className="flex items-center">
           <Link to="/" className="flex items-center space-x-3 hover:opacity-80 transition-opacity">
@@ -220,12 +220,22 @@ const Navbar = () => {
             {/* Regular Menu Items */}
             <div className="relative h-16 flex items-center">
               <button className="flex items-center space-x-1 h-full px-1 text-gray-700 dark:text-white hover:text-teal-600 dark:hover:text-teal-500 transition-colors">
+                <Link to="https://vlsi.qourin.com" target="_blank" rel="noopener noreferrer" className="font-normal">
+                  Qmos
+                </Link>
+              </button>
+              <div className="absolute bottom-0 left-0 w-full h-0.5 bg-teal-600 scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
+            </div>
+            
+            <div className="relative h-16 flex items-center">
+              <button className="flex items-center space-x-1 h-full px-1 text-gray-700 dark:text-white hover:text-teal-600 dark:hover:text-teal-500 transition-colors">
                 <Link to="/research-and-development" className="font-normal">
                   R&D
                 </Link>
               </button>
               <div className="absolute bottom-0 left-0 w-full h-0.5 bg-teal-600 scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
             </div>
+            
             {['Portfolio'].map((item) => (
               <div key={item} className="relative h-16 flex items-center">
                 <button className="flex items-center space-x-1 h-full px-1 text-gray-700 dark:text-white hover:text-teal-600 dark:hover:text-teal-500 transition-colors">
@@ -361,6 +371,19 @@ const Navbar = () => {
 
               {/* Mobile Regular Menu Items */}
               <div className="h-[1px] w-full bg-white/80 dark:bg-gray-700 my-2" />
+              <Link 
+                to="https://vlsi.qourin.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block py-4 px-6 text-gray-700 dark:text-gray-300 hover:text-teal-600 dark:hover:text-teal-500 hover:bg-white/40 dark:hover:bg-gray-700/50 transition-all duration-200"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                <div className="flex items-center justify-between">
+                  <span>Qmos</span>
+                  <ChevronRight className="w-4 h-4 text-gray-400 dark:text-gray-500" />
+                </div>
+              </Link>
+
               <Link 
                 to="/research-and-development" 
                 className="block py-4 px-6 text-gray-700 dark:text-gray-300 hover:text-teal-600 dark:hover:text-teal-500 hover:bg-white/40 dark:hover:bg-gray-700/50 transition-all duration-200"
