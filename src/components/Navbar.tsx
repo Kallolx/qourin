@@ -221,7 +221,7 @@ const Navbar = () => {
             <div className="relative h-16 flex items-center">
               <button className="flex items-center space-x-1 h-full px-1 text-gray-700 dark:text-white hover:text-teal-600 dark:hover:text-teal-500 transition-colors">
                 <Link to="https://vlsi.qourin.com" target="_blank" rel="noopener noreferrer" className="font-normal">
-                  Qmos
+                  VLSI
                 </Link>
               </button>
               <div className="absolute bottom-0 left-0 w-full h-0.5 bg-teal-600 scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
@@ -379,7 +379,7 @@ const Navbar = () => {
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 <div className="flex items-center justify-between">
-                  <span>Qmos</span>
+                  <span>VLSI</span>
                   <ChevronRight className="w-4 h-4 text-gray-400 dark:text-gray-500" />
                 </div>
               </Link>
